@@ -1,0 +1,527 @@
+
+contractcodename: { //contractcodename is the mission name in the codes
+
+  //Critical Components (get a list of values you can put in here)
+
+  name: "Mission Name", //name is the name appearing in game
+  description:
+    "Contract Description", //description is the description for the contract (does not show up in game)
+  clientPic: "selene", //clientPic the persona image that appears in the contract selector (defaulting to selene) (##gets pulled from a client list?)
+  song: "arrival", //song that plays in game (##gets pulled from a song list?)
+  unlockedParts: [
+    "cabgold_3x2",
+  ], //unlockedParts are parts you instantly unlock for free (mainly to get used in the mission) once starting the mission (defaulting to cabgold_3x2) ##Optional
+  unique: !0, //Unique !0 does I think the exact same thing as not having it here at all(?). !1 seems to behave like the infinite randomly generated missions post game?
+  requirements: [
+    { type: "Command", limit: 1 },
+  ], //requirements the requirements on the left side of the game get created here. (defaulting to needing 1 command)
+  reward: ~~(0.85 * U(g)), //reward is normally above requirements, though there are situations (where stuff is calculated based upon the parts) where its here. This calculates said reward on the left
+  
+  //ship: g, //ship loads in a pre-build ship that's stored in the files
+  //scene: b.J, //does... something??? Might execute the ShipCAT introduction?
+
+  // -= -= -=
+  //  Dialogue components (all the dialogue for this contract)
+
+  script: {
+    before: [
+      Object(s.h)("selene"),
+      "Dialogue One!",
+      "Dialogue Two!!!", //Object is the chat prompt(? idk how to call it) specifically the .h value here. You can have multiple messages (seperated by "" & ,) here that each need an ENTER press to continue. The selene calls selene's default talking portrait
+      Object(s.h)("selene.explains"),
+      "Cooler Dialogue Three!!", //Object here differs from the one above in that selene now switches over to the sub talking image .explains.
+      Object(s.d)(), //Object here has the D value which sends the player to the ship builder.
+    ],
+    //Note that while nothing's here written, the player does get send to the shipbuilder.
+    after: [
+      Object(s.h)("selene.mad"),
+      "Hey idiot this is just the ShipCAT tutorial.", //Object here is a dialoge for the after-building scene.
+      Object(s.b)(), //Object finishes the successfull contract.
+    ],
+  },
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##This list misses some characters
+["selene","wren","grandma","soggins","meercat","cat","cat2","outlaw","scientist","axel","aaron","rat","amongus","futureSelene","garbogirl","lilibri"]
+
+
+  selene: {
+    name: "Selene",
+    status: "Away - frick off im busy!! !",
+    location: "GCC 1245.2",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAGJElEQVRoge1aTWwbRRT+1n9rO3bjhDgpmNYBJSEiKXAphaqlSChSubZCFTlAL0lvRVRCHBAKSJyIxL30QA9QCSF6QipSD/1DEe2xTVrXjqgMdRPbaeImtnfXP1kO8Wxn17s7s1kTcegnrbQz897M++a9+d0FnuEZdhRCJyqRZguoNeoI+PwqnV9r1IWAz6+lQ5/1d6I5W/jcVrA0k8FqaQ29sR61VH6iK4tFutVGsyH4vD4VHeo8FrgbOXroRFve73/8jKWZDACoxeUi4rvjbTKxSLdlO/+Fxzy8giulAgCo5KnKFRw9dAKptQeaTHG5aKWuGp9GswFptqA9nYKjkEtl57X30eS4CgCXHlwTRnte0vKJp1qegTEMCWKRbm28NZoNgSZFe84q3wrcITe4Z4xOasaMJscBAD+8943moeGhIUsiZiDkgS1yPq+PTsPn9alyTRZ6vtjLrItJyDh2qnIFtbqC3kAUd5fvqwBw7/QVnYwTMkbQ5Oj6/D6/0PflIFOfGXIrpQL6Yv2aR8LBLoSDXdjEUyKZxUWdjtnkwAurzqg36lz6XGOIHjsE905faSNCYDXj7QTYHnpSAFqhuT/xOt7ofxVnDk+rVmQIOkyKe6xzC0qzBWyUy4hGIkwyRrgh5vN6hUaziee/HuaTd1L5dsgA+vWJhxw9W66XN0wnCitwEZJmC6hKEsKhkK3cxdER7f1YKm0qY7P4tiGzuIjhoSFH2yZuD4VDIUvvECKJAfFpHrbyrIg5QVWSIM0WuBZW15tTMzIkncsrXF6j6zHKOvUSU4gKtzYPWZExIpdXeGzR1ZXLKxqp4aEhVCVJCIdCTC9xbU7dkCEy5OEtTwyIWhuZxUWEQyHVVNkAVyHHQ8aNTmJAxEWMOBqHbYQuXdV3xP2ChFeyZV2eMd7NcOPWivZ++M0+x+VmeBQPava9/675aGkLucerMkCdW5b6Q+rV/XHkPnxbJ8fqaV4jWXJ0O+nBKH2mMkWbhyS5oT58VDaTxcMj+3Dg2h3Tsol3Irr05etlW2PpMjNdI35MhAALu2i0+e3chQ2g1QMkLEjj9GxFes5ojBFmxhE41b1xa0WzZWoyahpzVrOcAAAvJ6NaRTS2Mxm4hcEGy+WmjdDUZFSXJqTMGjD28Ni+A9pDYOUFXl2aiJUtNLgvSYxeMo4P2pDy6k1dmgU7XdIODxnAhpBS2xRIaNGV8YRbpJefTCd1AQtCU5NRiAFu5+0YEgMilNqm7XbN1mpJbpp6ieD8L4+194U7N3VlJG01y9H5Vrqkfnp2FQOetnFOw3LrMzUZxbkLG4SUaqzYDEbDnIClmxgQIclNIRT02soxd9utdQm+NRnZmqAaxxAhefKD53T5pHftxhyvbi6vICR6hN6Y39Y7AOcZY2kmg+ymiqRHUM/GekyNNHrPyVplp5vLKwj4BaFWV/HVp+ztFHO3vTSTgSIrSAZFtbhcBGI9pnJuFluW7osVBR99/gJXXbaTAiEjEjLYOkk6ObC5QS6v4FRpDSPlMvnKwQRzbqbJEDghZSXH0icn1uJyEUmPoCqywkWKGXKVckUQgyIUWYE/4IfH48Gu2C71WCqNixhhhgu5WzDLZ5EhaF1act0rcF8PmYUfsHXY6+RmlYTZP0pdCK6VAABiUITX50VXpIt54cg9y5mRIXByv2AF4sVjqTTiu+Oo1WpCIBDgvjEl4CaE1mdHO9BHcx5ydCga7w3iu+NQZEUQg6IjUtyXJPRYoqA7Cm/c+Qm/Xv4eAHDyzDVmnee/O4LjE9P42L+/rczJuKGx7S/Tt0/NARSh66Xbwm+5K+rYyEGNFAvHJ6axkJ7Dt2OftNnkZNzQcH1zSoy4u7YVMgvpORyfmOZSWkjPAQAuF/4UJvrf0jrntbMHt21IJwgJAPBXNadlEEN5kVdWST1cl4l2cHvoEYCnPVqVK45DuCpXhNvr2oLp+ueMbXvIKixS2XntyzgLqew8+rr7EQ52uQozGh0ZQ4N7xpAr/o1EfK86mhw3/SZrhdYH6Y79NuP6nE3+X9iorquECPHQaHLc1lukbL2y/d8AjOjUxYE2mGnvpLLzTG+lsvOo1Xdm9/4M/wf8C3jSz2q5lKTiAAAAAElFTkSuQmCC\"",
+  },
+
+
+  wren: {
+    name: "Wren",
+    status: "Available",
+    location: "Working at the shipyard :)",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAADqElEQVRoge1ZTUhUURT+pj8UiqBaKOQqR0RwbKFEG8WFIi0EBRe1cFfmQldOIBEtwgZ8rnRRBi1yoVAwQYsgZyHjRmJaNAYRo7RRcIKQoGBm91o87pv7rvfed/9EF/OB4Ls/Z853vnPPve8+oI466qijjjpODgnXBgvlNV91bE/TXee/f86FEUJi5fVb7O3tac9zSczKEE0EAPoHbxvZaWlpcUbK2EihvOYTIoA5GQJXpJyknAo21rdiRmxham7EX3r83oqU0WQVdeIIfNnY4bZ39yfD/03IOVdIRoQmkRpejfRtf7h3ZIyJYtoRYNUBAoVUFGFJ8ECIEXT3J7WUOqM6UAZXZIBAOdWxPFilHJ0edO6z/SYOpoZXceHv04g6Xr7ip/sapWppp5yXr4Qngd1ijRCbKsQpW7R21QK1W9zB8nTKHSEvX/FpEjqYHOvEi3ffjObScEbIlgyBDak4MoBCUfDyFd8VGfLMtumCTnsW3KIgWicivJyKOvhwKV4FNgVVbBC/ZD5xJZxY3FZ6BWCdYLGwWcVAW4OwP1eqYqZX3A+IgyNKP27KqeTqaYXxxsqqc/HKrfCPYKa3AblSlTufVYc3n/c7gDzgQkI6KtFO/Dv8fMQpl/Pj/JIqZJJ6umR05jsp26dpPZEtRFa2hc7Gle7JsU50NdWe2bQBgGK51i9aS0Cw1njzAX6VkwVZeDhN9zUmeOVbtCnSTvAgK98Lm9XY+QTWRx8VUrRSQFQZVbBVr1gO2kh2qKa+9vqYWNz2W7uS0oibIFc6ugnnSlXEvS6w0NqHZIvRFq4CdFZ1IH1APfx1iD/nL+PG1eO7NDJRB1BUiHfa3i3uSCuXrC9uPFk7JhlxbCEeaGsI14WMHD3OBaSSqhzX4wpEnLNsP13ZiH2d1DMq2yzIe79NlImKbPCcExKBR9S0nLOq8OyqkjImJHotp29p4lKNgLZDNlA6YMSmCikjQiIyy9OpRLYw73uzKwCA0ScFoY3ss57Aycw4Pm0Nhe26KcZCu8rJyADBLWo6Mw5vdiV0WoR0Zjy4db00JB2nA+evBlNzIz6g9r2IXCGT21GSZjYqOSP0/M39MOcP9n9rzbX9JkTD2hBNhIYqKZdkAIuTQrYwHyHy43t0XTVfv2Zq2gpG0ckW5n2WQHtH9OsD2y9Ce0cSoz2PTi7leGR4uDP4KvL8cf2BsP/nvueMlJMPXixYMmwbr59NYVMc643O1wM/4uTN5kSCbSdtdQjwH9777qSwpTo7AAAAAElFTkSuQmCC\"",
+  },
+
+
+  grandma: {
+    name: "Barbara",
+    status: "Just splendid thanks!",
+    location: "Running errands",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAEJklEQVRoge2ZwUtUQRzHv886etoVXKPFyoNKB1eSohDrIhTZXxBBomiHoGvgOegWgocShSC6GR0yFPaSIUWi1B5k9WC2vGhXWPfkLdrXweY1zvv9Zub5Zq2DXxD2zfxm5veZ+c1v5j2BYx3rWEnkHdVA+aAeqGWDXpPz8Y8EKB/Ug61aLVLekUoBcAt20lVHAL0KAEDBiHIB5UrOZoZbBRtxUIdZOSdASWB06kilYkNZhVwjN3TR99GdzbroCoAFEDf7ArIRmUpoq1ZDPqgHccbQGtqEUkcqxW56k4q+DwDGFYoTek2H8kTSVq0WOhZHtjBiDDnsuWwKaIBsN7pwLA6UbGvbTkDlg3owXyiwdonOIdUZ+ZmbedlmcXUF1/suWq+WDkTI6cEKRJ3U2bVk2kJ7IN4qc2I3minkuMEXV1cAIHSSq2/JtIVl1Uo5/M21kzWZ62X9Zldo0GvyOCjTTIqZ5+q4MhmMkw4GaEDICVGO27SRQ5CS6VyKBWS7LwDgzuUrYfmLjx8itqZ6TvOFghbKOm3HgQGAJ69fWTmo2unCVUhAUXWRFRKGAsYm86gwwjHhLBV+urokIpftwZfP7EmsioJxoWqlrN1LQz095HVImzGe7lYDgF4lKv26lg6Ky3ZW55B6ugM0yPLNW+Hvrtlp1k52GAA2RsbCsv63byI2KpQudccC4sJLBlHVNTtNtqlWygdAVMlgKtRkrtfjMh2Z5eQMYkoKpsNwY2QsYmOCMfWru6CS55DNLZsKFwBobr0U/t7b+RTayDMut6HshY0IW1W6Syq5QvfSLV7R97Wr05Jpi4SS6pz8TMlkT40hxO0j9qYwmev1dOnbFGomGBt7agzTXU77xjqZ6/W4DnSz50qif5EQTDCAg1dwOc7lPSA/q6lYPHP2ar+AHQxgCTTU0wNgf6aoMFChxJ+NKHsqGei+I8gyUqspkjqLuIynO1xt2qjnD3fdkWX8jEWlSB2UKpubAteGuiWYoLTvQ4NekzbTUU7EkQmWuseZVsi4h6jNyO0lzrE45aJuc3Q8kmFtEoP1J1Z5pUTHnTPPAtMs//r+A619FyJ1O6trOHH6FBm6m6Pjh/68nPi7dOfMswCIhk+1Ug7LdlbXIu0EpGyXFAZw+P8hDsxWLmAAR199KhNTwcLzPADg8d3BsNwEJ++jpe2fyDjwJfGMVCamwr21sPTuQJ0MR+nhn0m4cfVaWJZ5dD+RT05W6NvXbQBAd7YdAFD0SwD+OqxTd7Y9bH/m3NnEvjTkQ6MA+xdKfDm1VdEvIT2wjvTAekPHSQyk7htKRb+E/tt72H1/HgBYKJu+TEoMNLw854k9Y1J6YD2EUlX0SxhenkucpJyFXNEvgQPrzrZj+WUzgCiUrt1h5CRtuwgVYD99J03biRq7hBFyAXWs/1m/AWKajTW/mwzRAAAAAElFTkSuQmCC\"",
+  },
+
+
+  soggins: {
+    name: "Soggins",
+    status: "Panicked",
+    location: "aaaaaaaa",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAADO0lEQVRoge2Yv2tTURTHvxGdSmmXilu3UpqCkw4SSLe+/gEx6KgORUcnu7no7KAE0VXR4moTXBKQInaKmCCd/LEUsyRIpg7XIZyXk/vu77yXZHgfCCTv3nvO+b5z77n3BsjJycnJyclZbJqDmmgOaiK0fRoupm2wOaiJ94ctYx9qbw5qYmdlv5Cm/wtpGgPGwb6491YbKLXZhIeQ6tsRQggAKBQKTnapv88YG1Mb4UEljGuCDBnjylRriGWEP/O2I40X04gKXkNcDBchB6cbx/vL400ZtJFKUaCgQuPwHW8q+6mXbZXzLOzyCkk+dlb2C0EZEkKIg5MefQcwesvy9CHH/KOwlRh/cNIzTjvau+6/uiVkcUGL79HXvwIAnlxb0/Z58Pq20cbzu2+0bfSynl6/HMfHs0BCOLS3eQkio1lsiDLyxmw6gbQafXQOjwqAxxpyOdKkiXwskqeZDqc1NGsxwGgWhBQUq6B5iCFcRLUa/YnfxjU0TzGcm5Uy+PQrVvYmRNL6AQxraFHEAONMkahoOZpo7+Ao/q4UtEhiCC6qc3qs7Zf5SSELfvz6rm1LFIVFzA7hUiRSv7GqkCuR7fk0JKqcbeNaBD4+/jbx++efTqxjJhnKEi4GUBSF3tk51q5cshpqNfoo7646O1ZNL5fxvn4SgrrtIbawZBVV3l2Ng5QdugYv9+N9fGxztGXbJVPkzBSYy3iC21HZ6J2dW20qjz7Fyp7YuroEAE7TL2tISLc9xPDL7/j55vo26p/fmdeQztg8hLlkREYpaHTYG2dJZTwrgToRquyoMJ62+dTzwUesSxZkMYB6ugGWKafKVFpBuqITo8O6hkgUAIRkK5RuewgACTGEKjuA558kdLHKUphNCJA8HXC8/8Z6eOeZqP+rJ56HiKTgOdFyhA+fXmJzfVt5TTCJAQLuQ53TY0QbUeJ5vZ0UaUO+eZJ9YHTnkUXZxACeGYpK1fgkTg6J4sYNH1MAxsGr7JEQEuUiBggUJDuXMbW7tvlmhvC6PpiuvqqgQgkVA3isIZ4d2Slg3ht0qF6Q/CwqVYWuRKtw6hiVqkKeDroqlDa6E4EOa0cSwx3MQgjHV1TOIvMfCT8ReG7FaOIAAAAASUVORK5CYII=\"",
+  },
+
+
+  meercat: {
+    name: "Meekins",
+    status: "vrooooom",
+    location: "nyoooooom",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAACy0lEQVRoge2YP2/TQBjGn0PsLCCSoYonZCkuYSlD1YGIRopYq6orakKZqJDKF2BnKZ1akQ+Aqu5BiVQGlAEvBDtS1amIIUWw9BMcQ3SWfbGd1+fXVQb/pAy53J/3uee9N2cDJSUlJSUlJSVLg7yZyiLnF0VNnBS4uFcV4T7h7xzc5ZwsLOL66mJhH24xAJNDKsgkEUlULHsWBKOwTBNNx+eRNKo2mkLeTGVWIToVy45sRrXRNBZITrnp+Fz6rhdp4xADzJytWDaGp6fBWqaiSILixGxubwe7+rL7NvLbu9cdOGurpAB818OH4150PDqksXGQdmHw6aMEgD9//wVtz180I0L6339Exgx7RwCQKExt0GbnTaS9/fQJAOCLOzZyiCxIFwPMnNGF6Fz//BrbXnn8LD0wIYwE3TEZBMyn2bJAEtTq7ouHD+7PtYfdEUIEnzBxTuhtcWOllEY3CrJDSpRKNz2gUCBzotIQQiAcu2GmBWRKuVZ3f+FqJgHlFRHG+AwtK5m3Jnxb8F0vKLt62ikoVS5urGmVY7ucGp7h3GN1cjkEJP9BJjmjo1e8Ye+IdFaTMBqoi6ISvj6lXY3yXE4zFwUOMUWtAeR8fDDBdz3yxdXEqUwOVRtNYbJInDtpjpmuAzAUBSpKgLO2SnLp1gQBs9s3NW2y4rve7Vc5BaewvEIULJeoPMK4hChYXyOpJ9tF4tR54hSiYH0v1x9JtNcF6T+nPyrmBSrbbftg91CeDU7I/c8GJzjYPWRXxf748Or9MUsfU9hyuL2xI+uP1kF1aau1h8nlCP1vn5f33fbkcoSt1h65bxGwCgKKC5QKq93tjZ1Mh5w73QDmonDxyy+kbxbYU66oQKmwOZQ13UzHLII15eyawzmdESyCrJW6VKmmRNk1J1Wg+s1aqbO6lLvK6AHZNYd0jvR+V78nLBUvl0Ocu8vtVMmy8h/VeDcbAQxt0wAAAABJRU5ErkJggg==\"",
+  },
+
+
+  cat: { 
+    name: "C.A.T.", 
+    status: "notifying", 
+    location: "the taskbar" 
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAAAXNSR0IArs4c6QAAAaNJREFUaIHtmjtug0AQhj+ilJbdWAquI+UEyI4ipaHiCpzUbpzGjWXlBJFSx0WqXGDSGAfWu2BgeTiaT7LAsw/+YZdhkAaUG+GVZ8l+eVvV0bQNrbnQWGUr+z+EQ6XXLhNU5djQjE2PoiiKoiiKogAQtBmcEAvAWrZn22yxAuDneCidu83YzshEiYgkxDINl5KdR2EqLqIwLfTNzgGm4XK4T4G8QwBRmEpCfBY+DZeSF5gQX7RHYVqYo61D920Gm3zwyTuHIAjsO2bDWwCQb58z8boidz4nGwPq0Nj5dw55DQpPPDJnIrZ3y8txAly+d755gKM/Db1Fuc3paLZplKug9gqZKctssbLeYVtqc+oP2NObhFjWX1sAGSwNMrOFqszAbHeN7RWb0CaizFzQ5XjvNLnTo1kdF3UEdumM1wfOEjCAvwe7qt0HnUQQV4TLGPxDTlEURVEUN/k6hVofeLdQ4FBwyFbr47KZE9nszjqchtSqaLmmjsc1gauv7xV1aay15ZqK2rEPduwDH041rjWqKi8z+5RtRZ8rdE2Zm4/rKH3wC1a5a/L0kbU9AAAAAElFTkSuQmCC\"",
+  },
+
+
+  cat2: {
+    name: "C.A.T.",
+    status: "mechanical animal",
+    location: "physical space, baybee!!",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAC60lEQVRoge2av4sTQRTHvxELkb0mEAJpknD+BRYWgmCKa220uUas7LSxDgSsbbwulVxjcza2FgqCxRX3Fxh2t1lYDq65JaQbm0xudm5+vdm3UXC/EEJu972dz7w3b2Z2DujUqVOnTgwS86X4223o5NK+InRnHw/Zpzqgf10kIDFfin1XK+ozexTn1y8XIhmPbozfv3bauxpCsa3yAgeni6C2koDEu4+iuryCCqU3LiaCLvsqL5AM+uh9eNsOEACYoEJU5QXJTsIACAaKKgrJoI8qL7yNCZHtPhWGougq54NKxqMgaFPEYmGABkAhaeeCcqVfMh6huryKalcUEGUMmaBCxlIsFBkopiDI+/XvEDsq1F3KzS6Y71++3vrb7Pkzr0+fXchYVEUr24Y5Rm3Q7OykfvHzN7/T46O6vxdvbvwpYL6JWIoUIZtugUjJxprANBDdlwpGUaPFqSldOBXjnzaGtrmsjiM1OrV0UaN2fFSPkhIdm83s7GR3jTKGSBFKBn3rhKqnSEjKxNj4xL4fso4nZhub2IFiepkjMlLk/RBgmBi3Y8I6hhxVLsSGsh8iFQXfgrGtdKMsVL1AcjJ1TmyyN/W5xTWxhtqsN6S2kFIO2G7y7t+jmsVrvQne3AGBRSHkRYUs5a7tgvzE2Ie+LImLEICYKFG34DLd2COkyudc7eHVj1+1a2Wa1X6r122RocAATRan640xSmoEDp8+rjXa9Ntkt/MfIXLKSTVJPa8iUk0qGghoCaoBDNAQCGCGaggDMAABTFAMMAATEKBAATQwZfA3hQEYgaRqYIAZTqtgHCA7X1yOdP1+8kocPnpovb46v8CDn5/Yn8/yksSm1flFm+6NauUET8yXYjidOO8ZTifOo5fYw7VWI+SDMklCyKVQ0PZFEXuEbL1qW5SaDriqvECZZijTzLlCN6nVQ2PX6YJNB6eLXplmGE4nGE4nKNMsePsNMAOJ+VKovWnaLujvqqu86P5t5r/SH+jDoANDLjA0AAAAAElFTkSuQmCC\"",
+  },
+
+
+  outlaw: {
+    name: "-- scrambled --",
+    status: "depends whos askin",
+    location: "-- scrambled --",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAD/UlEQVRoge1aPUgcQRT+NoRUdgdiGkkpQRMsLK7RC1wqtVEuMYIY1MbCdFqkDhaaKhY2KhrBIsfZ5CxCDjzTWFyh5x1yZbhGEa6zstkUZobZ3Td/u3OJxX1wsDvz5s377r1982Z2gQ466KADAV47lK6v7fkmcssrs87nd6ZQJHF6WjYak05n+LUrcomUxCEhgytysQeur+35SUnIkE5nYpOyHsS8oiNTONwBAExOzKHVutHqTaW6A/fMY7bEHtsIh73CDA0bIyJM5mCmC9P7tziY6eJt0/u3ETk2z/ranm9DyliQCrEwocLhDjIjY1pdIhmG6f1bUjaV6rYKQSMhk+fFJKwAuYdUsCGlFWBkCrurvG3y/Ud+bUrEBuXvW/w6M77Ar8fG3mhJKTtFMqV8HgCQzeUA3JNqJxlxPhtSj2QdsjBjE4kec4UwGQrF4jdlJWKU5cITlPJ5ZHM5boD4D4aNo6CSp+ayAek6VRJYHB3k1yz8KFz/bkj7ep718evM+ILWM5++/oi0yULPah0SyTADGCkVgTBEWZMw47InRe2yEGEo806YDAD0Dw1ojbBFvVKLtFEeAmgvSZOCDqZk6pUaaaSsr39oIKBbJJNKdSurEkBBqHC4w+uxMOJ4Jmy4jKRsDpGIilSAkCoZbB6dkRPpoJNX9evGUilcmhQmJ+Yibdlcjnz4n758Fbj/ufUlYAxlGNVWr9TweuFDoO2qeoyppc9otW64Z1QLunGWK+yuRsiIRHw/uNaVtjekhofBwi87vwR/fom3e57H5xgZHjWqTKzSNoUwEYbsX8OuL8paHVmBBKXb88y3REZZTuedf4GTX0dGcrHTNhD1jud5/MfQ8yKj1CH2U+OpeVQgCbVaN4F4NakCRCN837cKE5vxurUokYdksCXjcjyZFHSr8f+ELtMFPLS8MuuJ52MqXFWPeWoGonHO7nVZjvXLxgP3S8DI8GhkbOxaTlemiEawXxwkHQ9oCMlqOYb+oQGUtjcCnmK4vigbrUEqWUp3+aSo1GW8wVscHWzLdsEE9UotsoVwssFzATF8Tcsi2X6IAhlyVHLYPDozfpZUYCSSeFt18tOWdUgHm82hjXcABSFXXmLybHcq/sR+U+jO5YxPTkXYJoh6pSbd/8j02CQCEbHPttuZ9eKSARK+fWAnQa6IsfCLSwawfOFlcsSV5ADF5kBRBudv8KjzOx1kRAD7N3jO37GaFrfA/akNBVuviIhdKSyvzHrUW/C+vufGOopCWcY8wnTHtast3ymYkGo0LgP3D+I7BRHN5p1fPa8CiBorw9upd+jtfeL0axInxalIhkHnpUbjEtXzKprNO98lqcSEKDIMMk+JZNtBqoOHjD+zOGDAJ+QhAQAAAABJRU5ErkJggg==\"",
+  },
+
+
+  scientist: {
+    name: "Science Bear",
+    status: "Deep in Thought",
+    location: "At the lab",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAACwklEQVRoge2avU4bQRDH/xflIZIIV5zrINEhzAtAh0mk1DSRKKAyEnUiqEIkpDSpkYyPzrxAUkcytU1lBLzFpXD22Fvvx+zNHLai+0kn+z5mZv87u3O3ZwMNDQ0NDQ0NYiSUi/I8z+cMk4RkG4NEnNeUIPeTO+txSVFScbwX6kFuR6Pi+Pu1NQDASrrq7EFbb5cCa3acOHN+XSdcQXzBdBG23tZZSVeL77FxfAQF2YLowVQg15ChQo0T8vOqcgv+cT+5w3Q8YYkBZo1W2eDAFiQNV1RQkCuARG9SYsbG8Y7J6XhSTHJb9XlJWu2UV+UUuqhFQRUDEJ8UFikqRgxALAqtdpq02mniK611MRxkUZ0ZfPSh8OnnH+/5y/11lo9Or5//PvsoM4cUw0GW24qB3pBfpx9K57aOr4rvPlFUHxRRlQSZvWk2wkRvlItYHy5xS3djfTGGgyyfjielrdPr5yYAik2n0+vP2dt8uOyVj1A7RTOUJAn0VUPscolrD9Qw5LhrPq79fzeHWIIu99dxcnhU7JuLVLV/cnjkLNu6D5e98kEp2yI3VlcjFmHPvrECwI+LCwDAl/NvpeOq5z8fHAT9h3x8/X4u+6QA+EXpjVK4hJjX6dea5zY2N7Gz1yW3U3TIUTIR6yP2gTiqKOzsdUWeuM1GS3SEQrwoUKGIuB2NooYbUKFsc7Jk2un7UmutyrflUIFwYb6bUPumryrZARiCgOqiQlQVAzAFAfKiOGIAAUHA87qfI0wNPY4YQEiQIvaFhg5XiEJM0HCQ5dvdXdJyG5gtuW+yazEhCpHlgxIDPL8bePP2nfcTALa7u6ys2qhtPfT0+OD9rItaBOlZsm060lmqdcVqy8bSZ8j1W6rvPVvoHRwHlqDQD8MAPSMUXxQql0yzATfZNYDZnNDZOr4q5s3T40MpOzabOv7/0LBM/AWeLOE7mLvp8wAAAABJRU5ErkJggg==\"",
+  },
+
+
+  axel: {
+    name: "blub",
+    status: "blub blub",
+    location: "blub blub blub",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAADQ0lEQVRoge1Zv2sUQRT+Ri3zByTx9Cw8DZg/ICcpTEK6K61SqkS44pTDwkCwCEIsQkAFxWAsA/bXheQsztz+AQr5YeHqeZs/4NowFmHW2dmZ2Zm9d6iwHwT2dt9783373ryZ2QAFChQoUKBAgQIFfMGjM/43fEeKPMSoxTDKYIA/QTZxkZTDJdODqB3yibmy82BCyOlhz4uA8PMRZuNmDRK1w/htmwLkFaLD+FTJKMyFC2ARFLVDPgj68e+xmclUMB6d8dPDHtZWNxK+zdpSbO+CQdDHZmsnce/t59dM8BA2MhfvDJ2sd7VzQRAdnyqhfvdxfP9N51XC7tuLIGFvEgIA15/OJO7XZxvxdbO2pPWtrFT9S84kCjgnura6kRKi4vTTD+Oz8TtXrb712YZWkEkMAFywBaysVJnJWS2zUUEuRRsfAa+WKWdss7WTyA5jf0JxnkysLktqdkz+9dlGPJ9cYGzbOoi3E7VDjlaajCDCGEuJskG2Z4x5+8uwltz/iFSG1EVL7v82cM4TZeMLOctynGZtCc+eP9GuQboFNnMRk/u/gGjFg6Aft1zTHHDtcjp/0fp1YwP6BVabIZ2ILOSteV9/mZsuQylBPmLGZibjt6gujrbMqDZqx9NlRgcdV23JqQuq2vtd59WwUN9+Fi8g5/FB3l/57NlcIMf02e0LeDmYhFAIs8X0EeZkaNrx5iGadV9+ro7lIszYtifmykwnRIaPKB/frPEEN51A5/OQispKlZ2sdzn1HALOCWft9MnOQ2pnoRQ1CPra+C48BJzPQ7Ztu7DLK0xUgssYWXZDf3E5We9yMYCvMFWIHCsvhnLWEbhy7Rbff/jeyX/+3QP8/P41VWLDiCL9Jnbv/ku+u7cFAKhdnrfatn7tAwAWF5bxYfsRGQ+vA54LFheWsbu3FRPOsqUGqaDjowPcuHnbi+jx0QElBfoTqw9BajHACEoOGA1RV4xEUNj7gnJpOr5WIT8T11QgLblO5yMDkCJZLk3Hf+p9apDPIV1GbBAvgQoj+YzlKspXvAtIBUXtMN4lZJEVz6mP82RNwXbcsIkbBH3vf67ZQJIhVYy6lzM1BWEnRFFwGVpQ3u94KihFFfiX8RuAhe//AUX/DwAAAABJRU5ErkJggg==\"",
+  },
+
+
+  aaron: {
+    name: "Kilmo",
+    status: "riding the airwaves",
+    location: "wait are there airwaves in spac",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAADNElEQVRoge2ZPWhTURTH/0+koNBW6dIa8hYdJKgFhyDSSYeAKHQJGbp0E8kgIunYwbEdgkMQty4VQpaAIARqChJa6KDElCCFLq/Edin9ggpZntN93nfzPnLvOUGp+UHgfZ17z/+de8899wUY8h/QrRZcp5RzTW271YKRbRAWtYFuteAedBzv3M6X+25TfgmTCRsjs8tkfy5RjIWYZKZIciKZKeKg44AjUsZvJEjMXu0VgP6iJKKj2lMjRYrQv4iRIK6hpsIx9NgiJIYb4J/sQcj3ZTsOhkNOTdODgDLsjCPEPX+42h0OuSBO9/b/qr0MWZBwZjy1YGQv7LhEGQviTrdc7ZIixPFWT9pLrO1pC5LrLNkZwD/swtJuVDqW2zOt5y6bGPWDzlpy0l4ynoMqxlWtXL6MpxZ6okVBZ0+lwpK2OcVQMRZk58vWZMLm9MWDUm2TN3iDwnSjd+FKH6MIdasFd2R2ue/nnVKu55qdL+t02befpLTtuvFD3bLCfaHaB2EkSHfuaEaDhLagsGTw8O0L73jj5TutNim2KixJIVub9zkiOwgAp1/e9/zkZ2XbbG2e5AtbllNFxKGK4kJ7yIXNn8TtX+j8uOIdh3Hcqv/ZZu/uY+Ppoq4LkbAUp5XMCrK1eU9IJbPiu3/cqnvHyUwxdpswBgA3p4x80V6H5KLUzpcjU69lWb41qB8xgrHkFKxbN+CUclrFqtYcar555vPeKeVC1wlVjMrO+hp21tdCz0X7Qf1GoZ0Ujg7Pezq1LKvnFyWG0l8cLHOIy3kOhsWpGM/XJ65qd6abFL5/eA4AmF78OJikQEXnE5Xp5yyj7QMlSoKwjyJiOy+SgU50AMKOVU6lFGFBmIoBCENO7uzo8DwwvW5/+xnZhnpfbsdEDMDwt37cotdxjkPvJexrPddMhQjIgmR0VnQVqhABqyCBjjAuIQJ2QXNP6u703RncOXwc++z2xGc0Ww2sfnrE5gfrt20h5mwr5Sv/72fnvOOvlVXv+Gwrhel0G0Dd5RI18IVVFhN0zg2boAf3XrsA0Gw1MJpuY3M3usTZ3N3HaLqNZqvhs6fCIkh1Jk6UKiasnSEXkd8cSpgIJXb/KwAAAABJRU5ErkJggg==\"",
+  },
+
+
+  rat: { 
+    name: "a rat", 
+    status: "???", 
+    location: "???".
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAAAXNSR0IArs4c6QAAAktJREFUaIHtl6FuwzAQhv9Ng5MiDYYVZW+w4WmkxHC0NIV9isHClpYOhlSVqvE+QRcwjUVDkyqNZ2SuYtexz/ElS7V8zMmde3/Pd74AAwMDIVw0dUzTtNSfLZdL0n66L9WPgvdGMphJFJ28Wx0OzuDSNC11X4oflSsfY1MwXfpTuKQaUoKZRJHxKLpo6meCJIjjn3XtwSXKKaiLY8KJVVDXYjiyRK6hc2EQ1HdqBQkhWNpo1/yfDJ0r1vlJCFHGcWyc20ysDgdlnSSJsr7//HT6hs50XrOcKxidPM/VNU6HWulbFAWyLAseUIMF1Ylx2U+iCM/7PQCwCJEECfIVo/tyCpFYBWVZdiGEKFeoPyqSxWKhrKfT6cl+ug2AkvPjDmCqIRno9c3d8dn3104RVWcDZlGkjfRuV81ONdDfAI9BS1EUG4qot8fHEgBut9taW9Z7qBqkr41ryn4djY7vpTATpCNnqyWd6pHysUmSBPP5XAl0NpspmSje3517k2uoKsrE99fOVB9kG/3OAqAIfMlzPG02AICHj4/aI+ddjHJojeP4+MzQvQDA2BRsNlRs9da4u8hGIWnStrnFAIyCuoDSCc9m2qbeVUEXWldZ8rl4e58h3ykieORoM0tNRiKWGaoqqigKL1/TnxEy27ENhfroIlu0rX3r7ziGVPYM+dLLzwdfuEVU6X2X82UQ1HeCBf3FTGej1aYwHo+V9Xq9bvPnAARmyJYdXUzdM25aqSFb4G2LaiyoLjtdZMHG0OWA/nW2KkOG+pydgXPgB+4hG+qQiNwZAAAAAElFTkSuQmCC\"",
+  },
+
+
+  amongus: {
+    name: "Red Crewmate",
+    status: "Fixing lights",
+    location: "Really, in lights",
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAADDklEQVRoge2az2oTQRzHv4qHlAQjBJIeUmhMbA5CA/HQ5uIbGKgQPPQBqniSXorgKRC8FE+ifYActFAhPoJS68EFhRwqqS1kD61QSEqlORTWQ5x1djKzszs7m6Sw31Nm/3xnPvudmf2RBIgUKVKkSJEiRRLpWljGe4UFi26X0pmRa2Z2P2nvX6shCyETDakLTosJATk4jyGfGCh5ELigYIGB9goL1sF5DACUYWiV0plAUMo30qkAemCIgqSlBESnAuiFoaWSlm+gccEQ+YXyBTRuGCI/UNfDHsy45TmhSaVD5DUlT0AqMLVk0Yu1b3W/fXQd8w3dHRKQ18230mu7Zxfc42vleeE9uaUVCxCDSRPyk04tWcTGm1d2e+7mjMwegBiMiAeYW1rhQmkDYmFohQXGg9Kyy9WSRTxaXxee755dSAcLDMHd4LeMI2wZR3b78OsHzN174CiIXYFUNoO18rxwDYQFRitwQnQ6bouZlk4wNqVQXqyip8dKBxjbl9Zte+P9Z+QKWd/3ESjZ5kHOuz2EqSp9dCQWGGi7v493m5t2+7BjBrX0BfbyyTPH1h1KQjqgAO9gtLgv1ubsogUA7V4cd2/9sY/LqgS3d5HK2mLFTrOnq49HXqwjQM3ZRavdi9ttr0CAHEqH7pfvAODDAAwQCwM4gQBvUABCAyPrVVScaq+2t/v7AIAatVGE4b8sOG8D8dLR0fG4NVXvIR3yDUQXq5OS2xiihKZdSkDTMO1EunIJyR7mlQOSSRloEtPOS59aK4WWmRo5Vs2eBvKpZk8dbbYUY2XXQ6JKQWbAK2TziYH9G0/duBy5xw2yZabwovz/Oe/86rv6NQZfHDVdoITavbijcyD5bxAAcAIAqGaHU+Xh7aR9Vd1IcaEIzPffJ/axfIJMNYGfUbFoKOWECAzdOS3291a6XUpnUDcuHVA8GC9+xItAKW0KLEzLTHHXj0jsoFvmMDHaT9XLni+rxz/4Xwsf840au5yDZsXyswksd37afTY6wbyItP/x4XmsYgHDxUo+i9pevWR+tNdfXrieoYXST+cAAAAASUVORK5CYII=\"",
+  },
+
+
+  futureSelene: {
+    name: "Selene?",
+    status: "Displaced and dismayed",
+    location: "GCC 1245.2, again",
+    controlpreview: "export default \"data:image/png;base64,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\"",
+  },
+
+
+  garbogirl: { 
+    name: "Garbage Girl", 
+    status: ":P", 
+    location: "XD".
+    controlpreview: "export default \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAADSUlEQVRoge2ZP2hTQRzHvxWHCBUxDtZuSroUkyIO2UXdu9ghghUKtW5Cm0IXqUPRRnDTBgQV0qWLu5HOfUORVunSoFuTDBaEQN7kcyi/9HLv7r27y++lDu8Lob0/79593vd+d/fuAalSpUqVKtWJapVuMOx7nkuq4VqlGxw1DpNqXisWIBcnknKPBeiocWjVwVqlGzxcujDCcW9Z5zkaKVcLI+vz+4Guo8OMpYGeEnWUINbn94Px3EQoLcfSeG4i1BaXYyyNEBh1nKDW5/eNnREhB4FjcYh7NiM4FzDnSYGm5SiY6YW8U9vUrkvsOQGZrDGuMKJcoKyBhgXjKiugs1j9bV0yBjKFkd0ZtltGQK4wXLJxiW1zKsN4dR9e3VeWJalYoEHjhqBs9au125c2dYnFIZUDxXuZ2Do6iTAyWJwiV2KbKTo31Z/f2FPX//zuu1HHRJDrY7cBnG6poq4byKHphTxyU2EYANp8E6cIhkBsXHICml7IKzs2mi32/QB1DMVBySCUNpEWSDXc5G2/6MBotojOsYfOsdeXV1rMhKC8uo+ljXinXBzSvuDJYzWJXcLq1hw6xx4qT8JxJbpi45DRG6spDA0zG9E1zx+8V5bbwAAJrkPi0DPR6tYcVrfmIuuYrEWRQHEw4tQsA1BMNfbCaxIAbL72ldBLG3mj+NJJO6dHwcizlGp6BoDd7b+4dEX/zLy6j9JiGLaxd1Kmu3/UehT7iqs7F4ibev/8joYheXVf6aAIZLKgkmLvWK4WlA1F7dFMYUzFvtsuVwsjOjCVOGFIphOT06kPDcPx3IRyuNhINeTk+LF5mAOfy9Uq3UAHpYuPqHKv7p/duRzJBEqMOUpzwwBMQMDpoaNuxhLzVWmA5ziY/QtAFJgsThBSIp80gHjHAF4QUmJAAHD30eNg9ubbUP7HH0/x9dOHRO6d2CfJ0vJK7yBf/onl3ErkKYmdbbeauJ951iv74r/B1bFrvfTmqzXWPrADqZ584+Cg939ucjJ0DScU+5CTO9duNRGV5naIHai0vBLMzuwAAF68XAMAXMxe7vtL+bMzO+yxxApUWl4JyAGC0onK260mKxQbkAhz49Y2AODntzvKupRP9bihUv3P+gdUn/SV7RenjAAAAABJRU5ErkJggg==\"",
+  },
+
+
+  lilibri: {
+    name: "Lilibri",
+    status: "journeying",
+    location: "a little off course",
+    controlpreview: "export default \"data:image/png;base64,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\"",
+  },
+
+  lilibri: {
+    name: "Lilibri",
+    status: "journeying",
+    location: "a little off course",
+    controlpreview: "export default \"data:image/png;base64,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\"",
+  },
+
+
+
+
+  1: { difficulty: 1, song: "arrival" },
+  2: { difficulty: 1.1, song: "lagrange" },
+  3: { difficulty: 1.2, song: "floating" },
+  4: { difficulty: 1.3, song: "haze" },
+  5: { difficulty: 1.4, song: "azure" },
+  6: { difficulty: 1.5, song: "positron" },
+  0: { difficulty: 1.6, song: "azure" },
+
+
+
+  case "Cargo":
+  return e.cargo > 0;
+case "Range":
+  return e.fuel > 0;
+case "Thrust":
+case "T2M":
+  return e.thrust > 0;
+case "Passenger":
+  return e.quarters > 0;
+case "Fleet":
+  return e.fleet > 0;
+case "Maneuverability":
+  return e.agility > 0;
+case "Heat":
+  return e.heatsink;
+case "Firepower":
+  return e.firepower > 0;
+case "Command":
+  return e.command > 0;
+case "Comms":
+  return e.comms > 0;
+case "Radar":
+  return e.radar > 0;
+case "Energy":
+case "PositiveEnergy":
+  return e.energy > 0;
+case "Fuel":
+  return e.fuel > 0;
+case "Power":
+  return e.power > 0;
+case "Landing":
+  return e.landing > 0;
+case "Hazard":
+  return !1;
+case "Armor":
+  return e.armor;
+case "Cloak":
+  return e.cloakingRange > 0;
+case "AllPartsFueled":
+  return e.fuel > 0;
+case "CrewPartsConnected":
+  return e.command > 0 || e.quarters > 0;
+case "Mass":
+case "Size":
+case "Part":
+case "AttachedParts":
+case "Overlap":
+case "Profitable":
+case "Radiation":
+case "Compact":
+case "CompactX":
+case "CompactY":
+case "HotSpace":
+case "ImportTax":
+
+
+
+
+
+
+//##Basic requirements with limits
+requirements: [
+  { type: "Thrust", limit: 16 },
+  { type: "Fuel", limit: 14 },
+  { type: "Command", limit: 2 },
+  { type: "Passenger", limit: 10 },
+  { type: "Radar", limit: 8 },
+  { type: "Cargo", limit: 26 },
+  { type: "Firepower", limit: 8 },
+  { type: "Energy", limit: 104 },
+  { type: "Maneuverability", limit: 1.5 },
+],
+
+//##Additional requirements with other parameters.
+requirements: [
+  { type: "Armor", direction: "front" },
+  { type: "Armor", direction: "rear" }, //##rear has, obviously never been used, though it exists. you can also put in any name and it shows up (as achieved!)
+  { type: "Armor", direction: "top" },
+  { type: "Armor", direction: "bottom" },
+  { type: "Part", mode: "min", partType: "flier_1x1", limit: 1 },
+  { type: "Part", mode: "max", partType: "cloak_1x1", limit: 2 },
+  {
+    type: "Part",
+    mode: "min",
+    partType: "cargo_rad_3x2",
+    limit: 3,
+  },
+  { type: "CrewPartsConnected" },
+  { type: "Cloak" },
+  { type: "HotSpace" },
+],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+requirements: [
+  { type: "Thrust", limit: 16 },
+  { type: "Fuel", limit: 14 },
+  { type: "Command", limit: 2 },
+  { type: "Passenger", limit: 10 },
+  { type: "Radar", limit: 8 },
+  { type: "Cargo", limit: 26 },
+  { type: "Firepower", limit: 8 },
+  { type: "Energy", limit: 104 }, //##you can put types in twice btw! limit can be anything, even a string!
+  { type: "Maneuverability", limit: 1.5 },
+  { type: "Armor", direction: "front" },
+  { type: "Armor", direction: "back" },
+  { type: "Armor", direction: "top" },
+  { type: "Armor", direction: "bottom" },
+  { type: "Part", mode: "min", partType: "flier_1x1", limit: 1 },
+  { type: "Part", mode: "max", partType: "cloak_1x1", limit: 2 },
+  { type: "CrewPartsConnected" },
+  { type: "Cloak" },
+  { type: "HotSpace" },
+],
+
+
+
+{ type: "Fleet", limit: 12 }, //##unused
+{ type: "T2M", limit: 12 }, //##unused
+
+
+
+
+
+
+
+
+
+requirements: [
+  { type: "Thrust", limit: 16 },
+  { type: "Fuel", limit: 14 },
+  { type: "Command", limit: 2 },
+  { type: "Passenger", limit: 10 },
+  { type: "Radar", limit: 8 },
+  { type: "Cargo", limit: 26 },
+  { type: "Firepower", limit: 8 },
+  { type: "Energy", limit: 104 },
+  { type: "Comms", limit: 100 },
+  { type: "Maneuverability", limit: 1.5 },
+
+  { type: "Fleet", limit: 12 },
+  { type: "T2M", limit: 12 },
+  { type: "Mass", limit: 100 },
+  { type: "Landing" },
+  { type: "Power", limit: 100},
+  { type: "Range", limit: 100 },
+
+  { type: "Armor", direction: "front" },
+  { type: "Armor", direction: "rear" },
+  { type: "Armor", direction: "top" },
+  { type: "Armor", direction: "bottom" },
+  { type: "Part", mode: "min", partType: "flier_1x1", limit: 1 },
+  { type: "Part", mode: "max", partType: "cloak_1x1", limit: 2 },
+  { type: "Compact" },
+  { type: "CompactX" },
+  { type: "CompactY" },
+  { type: "ImportTax" },
+  { type: "CrewPartsConnected" },
+  { type: "Cloak" },
+  { type: "HotSpace" },
+],
+
+
+
+
+
+
+
+
+(Instead of whats below, make one that (can)holds multiple things and inputes)
+const Thrust = { type: "Thrust", limit: 16 };
+  { type: "Fuel", limit: 14 };
+  { type: "Command", limit: 2 };
+  { type: "Passenger", limit: 10 };
+  { type: "Radar", limit: 8 };
+  { type: "Cargo", limit: 26 };
+  { type: "Firepower", limit: 8 };
+  { type: "Energy", limit: 104 };
+  { type: "Comms", limit: 100 };
+  { type: "Maneuverability", limit: 1.5 };
+
+  { type: "Fleet", limit: 12 };
+  { type: "T2M", limit: 12 };
+  { type: "Mass", limit: 100 };
+  { type: "Landing" };
+  { type: "Power", limit: 100};
+  { type: "Range", limit: 100 };
+
+  { type: "Armor", direction: "front" };
+  { type: "Armor", direction: "rear" };
+  { type: "Armor", direction: "top" };
+  { type: "Armor", direction: "bottom" };
+  { type: "Part", mode: "min", partType: "flier_1x1", limit: 1 };
+  { type: "Part", mode: "max", partType: "cloak_1x1", limit: 2 };
+  { type: "Compact" };
+  { type: "CompactX" };
+  { type: "CompactY" };
+  { type: "ImportTax" };
+  { type: "CrewPartsConnected" };
+  { type: "Cloak" };
+  { type: "HotSpace" };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//##Create new ones with this list?
+Mass: "The ship must be under this mass limit. All parts have mass.",
+Cargo:
+  "The ship must have at least this much cargo space. CARGO bays provide cargo.",
+Size: "The ship must fit within the size limit. (The outline around the ship).",
+Range:
+  "Range is calculated as FUEL / MASS x 50. Fuel is stored in TANKS.",
+Thrust: "Ship thrust is provided by ENGINES.",
+T2M: "Thrust to mass ratio = THRUST / MASS. ENGINES provide thrust.",
+Passenger:
+  "The ship must accommodate this many passengers. BUNKS provide passenger space.",
+Fleet:
+  "This ship must support this many docked ships. FIGHTER BAYS provide fleet capacity.", //##heh?? they work in game under weapons (Mod in a new tab?)
+Maneuverability:
+  "Calculated as AGILITY / MASS. FINS provide AGILITY.",
+Part: "The ship must have at least this many of this specific part.",
+Overlap: "None of the ships parts can intersect each other.",
+Heat: "The ship is overheated. Many parts produce heat, particularly engines and weapons. HEATSINKS dissipate heat.",
+AttachedParts: "All parts must be connected to the ship.",
+Firepower:
+  "The ship must have this much firepower. CANNONS provide firepower.",
+Command:
+  "How many crew members can operate the ship at once. Command is provided by COCKPITS.",
+Comms:
+  "The ship's deep space communication range. Provided by ANTENNAS.",
+Radar: "The ship's radar range, provided by RADAR units.",
+Energy:
+  "The ship's excess energy for powering certain parts. Provided by GENERATORS.",
+PositiveEnergy:
+  "The ship needs more power from GENERATORS than it spends on powered parts. Also, all powered parts must be energized.",
+Fuel: "The ship's total amount of fuel. Fuel is stored in TANKS.",
+Power:
+  "The ship's electric power level. Nothing generates power now because this requirement is TODO.",
+Hazard:
+  "Some ship systems need a clear path to space, and cannot be blocked by other parts. Engines, cannons, radars, cockpits, and others.",
+Armor:
+  "The ship must be protected from this direction. Only parts with ARMOR or SHIELD, like PANELS, FINS, and SHIELDS provide armor. Check for exposed parts.", //##Shields?
+Landing:
+  "This ship must be supported by repulsors, so it can hover over planet surfaces.", //##Turns out they were mixed about what these are supposed to be?
+Cloak: "This ship must be entirely cloaked.",
+AllPartsFueled:
+  "All parts that hold or consume fuel must touch a fuel pump.",
+CrewPartsConnected:
+  "All crewed parts must be connected to each other.",
+Profitable: "A ship must be profitable, we can't lose money on jobs!",
+Radiation:
+  "Certain parts like crewed parts and antennas cannot be irradiated.",
+Compact:
+  "Fit the ship into the smallest bounding box you can. Each cell in the box costs ".concat(
+    s,
+    "k, so waste as little as possible!"
+  ),
+CompactX:
+  "Make the ship as small as possible horizontally. Each cell in the box costs ".concat(
+    l,
+    "k, so waste as little as possible!"
+  ),
+CompactY:
+  "Make the ship as small as possible vertically. Each cell in the box costs ".concat(
+    l,
+    "k, so waste as little as possible!"
+  ),
+HotSpace:
+  "To counteract extreme temperatures, every single part of the ship must touch HEATSINKs.",
+ImportTax: "Due to local bylaws, each individual part costs ".concat(
+  c,
+  "k extra."
+),
+
+
+
+
+
+
+Move over to a config system???????
+
+            config: {
+              thrust: 0,
+              cargo: 0,
+              fuel: 0,
+              weapons: 0,
+              passengers: 1,
+              crew: 0,
+              maneuverability: 0,
+              comms: 20,
+              radar: 4,
+              compact: "x",
+              armor: { bottom: !0 },
+              parts: { scaffold_1x20: 2 },
+            },

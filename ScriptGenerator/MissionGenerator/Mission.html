@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Editor</title>
+    <link rel="stylesheet" href="Mission.css">
+
+<section>
+    <audio loop id="cobaltcore">
+        <source src="CobaltCore.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="arrival">
+        <source src="songs/arrival.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="azure">
+        <source src="songs/azure.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="breakbeat">
+        <source src="songs/breakbeat.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="credits">
+        <source src="songs/credits.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="ending">
+        <source src="songs/ending.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="floating">
+        <source src="songs/floating.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="haze">
+        <source src="songs/haze.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="koyo">
+        <source src="songs/koyo.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="lagrange">
+        <source src="songs/lagrange.ogg" type="audio/ogg">
+    </audio>
+    <audio loop id="positron">
+        <source src="songs/positron.ogg" type="audio/ogg">
+    </audio>
+</section>
+
+</head>
+
+
+<body>
+    ㅤ
+
+    <div class="loopscroll">
+    </div>
+    <div><img id="logo" src="logo.png">
+    </div>
+    <section>
+        <span id="version" class="rainbow">ModCAT Terminal v0.0.8
+            <span style="color: red;">ㅤ[UNVERIFIED APPLICATION]</span>
+        </span>
+
+
+
+        <section id="all-interactibles">
+            <section id="buttons">
+                <div name="properties" class="ui-button ui-button-selected" id="contract-properties" style=" border-color: rgb(0, 255, 0);">Contract Properties &lt;</div>
+                <div name="pre-dialogue" class="ui-button" id="pre-dialogue"style=" border-color: rgb(120, 170, 255);">Pre Dialogue</div>
+                <div name="editor" class="ui-button" id="ship" style=" border-color: rgb(255, 215, 120);">Ship Editor</div>
+                <div name="post-dialogue" class="ui-button" id="post-dialogue" style=" border-color: rgb(70, 135, 255);">Post Dialogue</div>
+                <div name="export" class="ui-button" id="export" style=" border-color: rgb(255, 120, 235);">Export<span style="color: lime;">ㅤ[READY TO EXPORT]</span></div>
+                <div name="splitter" class="ui-splitter" style="background-color: rgba(0, 0, 0, 0.623);"></div>
+                <div name="settings" class="ui-button" id="settings" style=" border-color:rgb(112, 128, 144)">Settings</div>
+            </section>
+
+
+            <section id="editor-interactible-ui">
+
+                <section id="display-preview">
+                    <section id="display-preview-properties" active="true">
+                    <img style="scale: 300%; position: absolute; left: 738px; top: 336px; display: block; image-rendering: pixelated; opacity: 0.5; filter:brightness(0%);" src="screen.png">
+                    <img style="scale: 300%; position: absolute; left: 738px; top: 333px; display: block; image-rendering: pixelated; filter: brightness(120%);" src="screen.png">
+                    <section id="screen content" style="position: absolute; left: 576px; top: 219px; font-size:smaller; color: rgb(114, 101, 162); font-size:smaller;">
+                    <div>Available Contracts</div>
+                    <section style="position: relative; left: 23px; top: 15px; width: 503px; padding-bottom: 17px; padding-top: 22px;">
+                        <img id="miniImage" src="https://via.placeholder.com/26">
+
+                        <section id="contractText" style="position: absolute; top: -9px; left: 54px;">
+                        <section>
+                            <span style="display: inline-block; color: rgb(251, 178, 110); width: 320px;" id="previewContractName" contenteditable="true"></span>
+
+                            <span style="display:inline-block; color: rgb(45, 126, 114); position: relative; left: 0px; text-align: right; width: 120px;"><span id="previewContractCost">4,080</span>k</span> 
+                        </section>
+
+                        <section style="width: 449px">
+                            <span style="position: relative; top: -2px;" id="previewContractRequirements">4 Requirements</span>
+                            <span style="position: relative; top: -2px;  float:right; color: rgb(136, 74, 158);;">Engine 4x2 (+1)</span>
+                        </section>
+
+                        <section>
+                            <span style="position: relative; top: -5px; color: rgb(86, 250, 193); width: 449px;" id="previewProgress">In progress...</span>
+                            <span style="position: relative; top: -5px; float:right; color: rgb(136, 74, 158);">+2 store parts</span>
+                        </section>
+                        </section>
+
+                    </section>
+                </section>
+                    </section>
+
+                    <section id="display-preview-pre-dialogue" active="false">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 336px; display: block; image-rendering: pixelated; opacity: 0.5; filter:brightness(0%);" src="screen.png">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 333px; display: block; image-rendering: pixelated; filter: brightness(120%);" src="screen.png">
+                        <section id="screen content" style="position: absolute; left: 576px; top: 219px; font-size:smaller; color: rgb(255, 255, 255); font-size:smaller;">
+                        <span>>Friendchat 98</span>
+                        <span style="display:inline-block; position: relative; left: 203px; text-align: right; width: 150px;"><span id="preCurrentDialoge"></span>/<span id="preCurrentAmountDialogue"></span><span> <span id="preRemoveTextbox" style="color: red; opacity: 80%;">-</span> <span id="preAddTextbox" style="color: lime; opacity: 80%;">+</span></span></span>
+                        <section style="position: relative; left: 45px; top: 30px; width: 503px; padding-bottom: 17px; padding-top: 22px;">
+                            <img id="pre-dialogue-sprite" src="" style="scale: 265%; image-rendering: pixelated; box-shadow: inset 0px 0px 0px 1px rgb(35, 30, 73); background-color: rgb(6, 1, 37);">
+                            
+                            <section id="contractTextPre" style="position: absolute; top: -27px; left: 106px;">
+                                <section>
+                                    <span style="color: rgb(251, 178, 110);  width: 449px" id="previewContractName"></span>
+                                </section>
+        
+                                <section style="width: 449px">
+                                    <span style="position: relative; top: -2px;  color: rgb(114, 101, 162);" id="previewContractRequirements">Username</span>
+                                    <div id="contract-pre-charactername" style="position: relative; top: -12px;  color: #e77fdb;" id="previewContractRequirements">charactername</div>
+                                </section>
+        
+                                <section>
+                                    <span style="position: relative; top: -6px;  color: rgb(114, 101, 162);" id="previewContractRequirements">Status</span>
+                                    <div style="position: relative; top: -16px;  color: #e77fdb;" id="previewContractRequirements">currentstatus</div>
+                                </section>
+
+                                <section>
+                                    <span style="position: relative; top: -10px;  color: rgb(114, 101, 162);" id="previewContractRequirements">Location</span>
+                                    <div style="position: relative; top: -20px;  color: rgb(155, 164, 236);" id="previewContractRequirements">currentlocation</div>
+                                </section>
+
+                                <span id="preNextButton" style="position: relative; color: rgb(114, 101, 162); top: 135px; left: 295px;">Next &gt;</span>
+                                <span id="prePreviousButton" style="opacity: 0%;">&lt; Previous</span>
+
+                            </section>
+
+                            <section style="position: relative; left: -43px; top: 50px">
+
+
+
+                                <div class="textbox-style">
+                                <span class="textbox-content" id="preboxrender" style="display: inline-block; color: rgb(6, 1, 37); font-size: 113%;" contenteditable="true">
+
+                                </span>
+                                </div>
+                            </section>
+
+                            <span> <textarea cols="40" rows="2" id="prebox" style="display: block; position: relative; z-index: 1; opacity: 0%; border: none; outline: none; width: 520px; height: 140px; top: -20px; left: -46px; color: rgb(201, 164, 31); resize: none;"></textarea> </span>
+
+
+                        </section>
+                        </section>
+                    </section>
+                    
+                    <section id="display-preview-editor" active="false">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 336px; display: block; image-rendering: pixelated; opacity: 0.5; filter:brightness(0%);" src="screen.png">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 333px; display: block; image-rendering: pixelated; filter: brightness(120%);" src="screen.png">
+                        <section id="screen content" style="position: absolute; left: 576px; top: 219px; font-size:smaller; color: rgb(114, 101, 162); font-size:smaller;">
+                        <div>Ship Editor</div>
+                        <li id="requirementsList" style="position: relative; left: 0px; top: 30px; width: 503px; padding-bottom: 17px; padding-top: 22px; list-style-type: none;">
+
+                        </li>
+                        </section>
+                    </section>
+
+                    <section id="display-preview-post-dialogue" active="false">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 336px; display: block; image-rendering: pixelated; opacity: 0.5; filter:brightness(0%);" src="screen.png">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 333px; display: block; image-rendering: pixelated; filter: brightness(120%);" src="screen.png">
+                        <section id="screen content" style="position: absolute; left: 576px; top: 219px; font-size:smaller; color: rgb(255, 255, 255); font-size:smaller;">
+                        <div>>Friendchat 98</div>
+                        <section style="position: relative; left: 45px; top: 30px; width: 503px; padding-bottom: 17px; padding-top: 22px;">
+                            <img id="post-dialogue-sprite" src="" style="scale: 265%; image-rendering: pixelated; box-shadow: inset 0px 0px 0px 1px rgb(35, 30, 73); background-color: rgb(6, 1, 37);">
+                            
+                            <section id="contractTextPost" style="position: absolute; top: -27px; left: 106px;">
+                                <section>
+                                    <span style="color: rgb(251, 178, 110);  width: 449px" id="previewContractName"></span>
+                                </section>
+        
+                                <section style="width: 449px">
+                                    <span style="position: relative; top: -2px;  color: rgb(114, 101, 162);" id="previewContractRequirements">Username</span>
+                                    <div id="contract-post-charactername" style="position: relative; top: -12px;  color: #e77fdb;" id="previewContractRequirements">charactername</div>
+                                </section>
+        
+                                <section>
+                                    <span style="position: relative; top: -6px;  color: rgb(114, 101, 162);" id="previewContractRequirements">Status</span>
+                                    <div style="position: relative; top: -16px;  color: #e77fdb;" id="previewContractRequirements">currentstatus</div>
+                                </section>
+
+                                <section>
+                                    <span style="position: relative; top: -10px;  color: rgb(114, 101, 162);" id="previewContractRequirements">Location</span>
+                                    <div style="position: relative; top: -20px;  color: rgb(155, 164, 236);" id="previewContractRequirements">currentlocation</div>
+                                </section>
+
+                                <span style="position: relative; color: rgb(114, 101, 162); top: 135px; left: 295px;">Next ></span>
+
+                            </section>
+
+
+                                <section style="position: relative; left: -43px; top: 50px">
+
+
+
+                                    <div class="textbox-style">
+                                    <div class="textbox-content" id="postboxrender" style="color: rgb(6, 1, 37); font-size: 113%;">
+    
+                                    </div>
+                                    </div>
+                                </section>
+    
+                                <span> <textarea cols="40" rows="2" id="postbox" style="display: block; position: relative; z-index: 1; opacity: 0%; border: none; outline: none; width: 520px; height: 140px; top: -20px; left: -46px; color: rgb(201, 164, 31); resize: none;"></textarea> </span>
+    
+
+
+
+
+                        </section>
+                        </section>
+                    </section>
+
+                    <section id="display-preview-export" active="false">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 336px; display: block; image-rendering: pixelated; opacity: 0.5; filter:brightness(0%);" src="screen.png">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 333px; display: block; image-rendering: pixelated; filter: brightness(120%);" src="screen.png">
+                        <section id="screen content" style="position: absolute; left: 576px; top: 219px; font-size:smaller; color: rgb(114, 101, 162); font-size:smaller;">
+                        <div>Export information</div>
+                        <section style="position: relative; left: -100px; top: 100px; width: 503px; padding-bottom: 17px; padding-top: 22px;">
+                            <img src="wrenLoading.a45149a7.gif" style="scale: 50%; image-rendering: pixelated;">
+                            
+                        </section>
+                        </section>
+                    </section>
+
+                    <section id="display-preview-settings" active="false">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 336px; display: block; image-rendering: pixelated; opacity: 0.5; filter:brightness(0%);" src="screen.png">
+                        <img style="scale: 300%; position: absolute; left: 738px; top: 333px; display: block; image-rendering: pixelated; filter: brightness(120%);" src="screen.png">
+                        <section id="screen content" style="position: absolute; left: 576px; top: 219px; font-size:smaller; color: rgb(114, 101, 162); font-size:smaller;">
+                        <div>Settings.exe</div>
+                        <section style="position: relative; left: 23px; top: 15px; width: 503px; padding-bottom: 17px; padding-top: 22px;">
+                            
+                        </section>
+                        </section>
+                    </section>
+
+
+                    
+                </section>    
+
+
+
+                <section id="editor-ui">
+                    <section id="editor-ui-properties" active="true">
+                    <div style="text-decoration: underline; color: white;">ModCAT Control Panel</div>
+                    <div style="font-size: large; margin-top: 10px;">Source file:
+                    </div>
+                    <div style="font-size: large; margin-bottom: 10px;">> ..shice/main/contract_properties *</div>
+
+                    <span style=" position: fixed; left: 1715px; padding-top: 90px;">
+                        <img id="contractClientImage" src=""
+                            style="image-rendering: pixelated; scale: 400%; box-shadow: inset 0px 0px 0px 1px rgb(35, 30, 73); background-color: rgb(6, 1, 37);">
+                        <span
+                            style="position: relative; top: 75px; left: -72px; width: 200px; display:block;">Clientele:
+                            <span id="clientleft" class="scrollbuttons" style="color: rgb(177, 177, 177);">
+                                &lt;&lt;</span>
+                            <span id="clientright" class="scrollbuttons"
+                                style="color: rgb(177, 177, 177);">&gt;&gt;</span>
+                        </span>
+                        <span
+                            style="position: relative; top: 75px; left: -72px; width: 200px; display:block; color: #e77fdb;" id="displayClientName"></span>
+
+                        
+
+                            <span
+                            style="position: relative; top: 75px; left: -72px; width: 200px; display:block; padding-top: 10px;">Song: 
+                            <span id="songleft" class="scrollbuttons" style="color: rgb(177, 177, 177);">
+                                &lt;&lt;</span>
+                            <span id="songright" class="scrollbuttons"
+                                style="color: rgb(177, 177, 177);">&gt;&gt;</span>
+                                <span id="playpause" class="scrollbuttons" style="color: rgb(177, 177, 177); font-family: 'Segoe UI Symbol'">&#x23F8;&#xFE0E;</span>
+                        </span>
+                        <span
+                            style="position: relative; top: 75px; left: -72px; width: 200px; display:block;" class="rainbow" id="displaySongName"></span>
+
+
+                            <span
+                            style="position: relative; top: 75px; left: -72px; width: 200px; display:block; padding-top: 10px;">Unique: 
+                            <span id="isItUnique" class="scrollbuttons" style="color: rgb(177, 177, 177);">[✓]</span>
+                        </span>
+
+                    </span>
+
+                    <div style="visibility: visible;">Contract ID: <input type="text" id="contractid"
+                            style="position: relative; background-color: #00000065; border: none; outline: none; height: 19px; top: -3px; left: 50px; color: rgb(233, 229, 215);">
+                    </div>
+                    <div style="visibility: visible;">Contract Name: <input type="text" id="contractname"
+                            style="position: relative; background-color: #00000065; border: none; outline: none; height: 19px; top: -3px; color: rgb(233, 229, 215);">
+                    </div>
+                    <div style="visibility: visible;">Contract Description: <textarea cols="40" rows="2" id="contractdescription"
+                            style="display: block; position: relative; background-color: #00000065; border: none; outline: none; width: 394px; height: 38px; top: 3px; color: rgb(233, 229, 215); resize: none;"></textarea>
+                    </div>
+                    
+                    <div style="visibility: visible; position: relative; top: 10px;">Instantly Unlocked Parts: 
+                    <div style="position: relative; background-color: #00000065; width: 266px;">[Not Selected] ↓ <span class="scrollbuttons" style="color: rgb(177, 177, 177);">[+]</span></div>
+                    </div>
+
+                    <div style="visibility: visible; position: relative; top: 10px; width: 266px;">Parts For Sale: 
+                        <div style="position: relative; background-color: #00000065; width: 266px;">[Not Selected] ↓ <span class="scrollbuttons" style="color: rgb(177, 177, 177);">[+]</span></div>
+                        </div>
+
+                    <div style="visibility: visible; position: relative; top: 30px; width: 300px;">Reward: 
+                    <div><input type="number" id="rewardValueBox" style="position: relative; background-color: #00000065; width: 262px; border: none; outline: none; height: 32px; top: -3px; color: rgb(233, 229, 215);"></div>
+                    </div>
+                    <div style="visibility: visible; position: relative; top: 50px; width: 300px;">Req Missions: &lt;&lt; &gt;&gt;
+                    <div>Tutorial</div> 
+                    </div>
+                    <div style="visibility: visible; position: relative; top: 55px; width: 300px;">Ship: &lt;&lt; &gt;&gt;
+                    <div>ID-01</div> 
+                    </div>
+                    <div style="visibility: visible; position: relative; top: 60px; width: 300px;">Scene: &lt;&lt; &gt;&gt;
+                    <div>b.J</div> 
+                    </div>
+                </section>
+                
+                <section id="editor-ui-pre-dialogue" active="false">
+                    <div style="text-decoration: underline; color: white;">ModCAT Control Panel</div>
+                    <div style="font-size: large; margin-top: 10px;">Source file:
+                    </div>
+                    <div style="font-size: large; margin-bottom: 10px;">> ..shice/main/pre_dialogue</div>
+                </section>
+
+                <section id="editor-ui-editor" active="false">
+                    <div style="text-decoration: underline; color: white;">ModCAT Control Panel</div>
+                    <div style="font-size: large; margin-top: 10px;">Source file:
+                    </div>
+                    <div style="font-size: large; margin-bottom: 10px;">> ..shice/main/ship_editor</div>
+
+
+
+                    <span style=" position: fixed; left: 1715px; padding-top: 90px;">
+                        <img id="a" src="todo.png"
+                            style="image-rendering: pixelated; scale: 400%; box-shadow: inset 0px 0px 0px 1px rgb(35, 30, 73); background-color: rgb(6, 1, 37);">
+
+                            <span
+                            style="position: relative; top: 75px; left: -72px; width: 200px; display:block; padding-top: 10px;">Add to list: 
+                            <span id="addRequirement" class="scrollbuttons">[+]</span>
+                        </span>
+
+                    </span>
+
+
+
+                <div id="requirement-type-element" style="visibility: visible; position: relative; top: 20px; width: 266px;">Requirement Type: 
+                    <div id="requirement-dropdown" class="interactible" style="z-index: 1; position: relative; width: 266px; float: left; border-style: solid; border-width: 1px; border-color: rgb(199, 199, 199);"><span id="currentRequirementSelection" style="display: inline-block; max-width: 246px; overflow: hidden; white-space: nowrap; margin-bottom: -6px;">[Not Selected] </span><span id="currentRequirementSelectionDirection" style="color: rgb(177, 177, 177); float: right; border-style: solid; border-width: 1px; border-bottom: 0px; border-top: 0px; border-right: 0px; border-color: rgb(199, 199, 199); z-index: 1;">↓</span></div>
+
+                    <ul id="requirementTypeList" style="overflow:hidden; overflow-y:scroll; padding: 0; margin: 0; list-style: none; backdrop-filter: blur(3px); width: 266px; display: block; position:absolute; top: 69px; z-index: 4; border-style: solid; border-width: 1px; border-top: 0px;border-color: rgb(199, 199, 199);">
+                        
+                    </ul>
+                </div>
+
+
+                <div id="required-part-element" style="visibility: hidden; position: relative; top: 20px; width: 266px;">Required Part: 
+                    <div id="required-part-dropdown" class="interactible" style="z-index: 1; position: relative; width: 266px; float: left; border-style: solid; border-width: 1px; border-color: rgb(199, 199, 199);"><span id="currentRequiredPartSelection" style="display: inline-block; max-width: 246px; overflow: hidden; white-space: nowrap; margin-bottom: -6px;">[Not Selected] </span><span id="currentRequiredPartSelectionDirection" style="color: rgb(177, 177, 177); float: right; border-style: solid; border-width: 1px; border-bottom: 0px; border-top: 0px; border-right: 0px; border-color: rgb(199, 199, 199); z-index: 1;">↓</span></div>
+
+                    <ul id="requiredPartTypeList" style="overflow:hidden; overflow-y:scroll; padding: 0; margin: 0; list-style: none; backdrop-filter: blur(3px); width: 266px; display: block; position:absolute; top: 105px; z-index: 3; border-style: solid; border-width: 1px; border-top: 0px;border-color: rgb(199, 199, 199);">
+                        
+                    </ul>
+                </div>
+
+
+
+
+
+                <div id="direction-element" style="visibility: hidden; position: relative; top: 20px; width: 266px;">Direction: 
+                    <div id="direction-dropdown" class="interactible" style="z-index: 1; position: relative; width: 266px; float: left; border-style: solid; border-width: 1px; border-color: rgb(199, 199, 199);"><span id="currentDirectionSelection" style="display: inline-block; max-width: 246px; overflow: hidden; white-space: nowrap; margin-bottom: -6px;">[Not Selected] </span><span id="currentDirectionSelectionDirection" style="color: rgb(177, 177, 177); float: right; border-style: solid; border-width: 1px; border-bottom: 0px; border-top: 0px; border-right: 0px; border-color: rgb(199, 199, 199); z-index: 1;">↓</span></div>
+
+                    <ul id="directionList" style="overflow:hidden; overflow-y:scroll; padding: 0; margin: 0; list-style: none; backdrop-filter: blur(3px); width: 266px; display: block; position:absolute; top: 105px; z-index: 2; border-style: solid; border-width: 1px; border-top: 0px;border-color: rgb(199, 199, 199);">
+                        
+                    </ul>
+                </div>
+
+
+
+
+
+
+
+
+                <div id="mode-element" style="visibility: hidden; position: relative; top: 20px; width: 266px;">Mode: 
+                    <span id="modeMinimum" class="scrollbuttons" style="color: rgb(177, 177, 177);">Min</span> | <span id="modeMaximum" class="scrollbuttons" style="color: rgb(177, 177, 177);">Max</span>
+                </div>
+
+                <div id="value-element" style="visibility: hidden; position: relative; top: 20px; width: 266px;">Limit Value: 
+                    <div><input type="text" id="limitValueBox" style="position: relative; background-color: #00000065; width: 262px; border: none; outline: none; height: 32px; top: -3px; color: rgb(233, 229, 215);"></div>
+                </div>
+
+                <div id="custom-parameter-element" style="visibility: visible; position: relative; top: 40px; display:inline-block;">&#128736; Custom Parameter: 
+                    <div><input type="text" id="customValueBox" style="position: relative; background-color: #00000065; width: 262px; border: none; outline: none; height: 32px; top: -3px; color: rgb(233, 229, 215);"></div>
+                </div>
+
+
+
+
+
+                </section>
+
+                <section id="editor-ui-post-dialogue" active="false">
+                    <div style="text-decoration: underline; color: white;">ModCAT Control Panel</div>
+                    <div style="font-size: large; margin-top: 10px;">Source file:
+                    </div>
+                    <div style="font-size: large; margin-bottom: 10px;">> ..shice/main/post_dialogue</div>
+                </section>
+
+                <section id="editor-ui-export" active="false">
+                    <div style="text-decoration: underline; color: white;">ModCAT Control Panel</div>
+                    <div style="font-size: large; margin-top: 10px;">Source file:
+                    </div>
+                    <div style="font-size: large; margin-bottom: 10px;">> ..shice/main/export_script</div>
+
+                    <div style="visibility: visible;" id="query-export">QUERY FAILED</div>
+                    <section id="exportbuttons" style="position: absolute; left: 1180px; bottom: 75px; background-color: rgba(250, 235, 215, 0);">
+                    <div id="copyquery" class="export-button" style="border-color:rgb(112, 128, 144); scale: 75%; padding-left: 15px; width: 200px;">Copy Query</div>
+                    <div class="export-button" style="border-color:rgb(112, 128, 144); scale: 75%; padding-left: 15px; width: 200px;">Save As File</div>
+                </section>
+                </section>
+
+                <section id="editor-ui-settings" active="false">
+                    <div style="text-decoration: underline; color: white;">ModCAT Control Panel</div>
+                    <div style="font-size: large; margin-top: 10px;">Source file:
+                    </div>
+                    <div style="font-size: large; margin-bottom: 10px;">> ..shice/main/settings</div>
+                </section>
+
+                </section>
+
+            </section>
+
+
+
+        </section>
+
+
+
+        <div><img src="platform.png" id="rightImage"></div>
+
+    </section>
+
+</body>
+
+<script src="Mission.js"></script>
+
+</html>
