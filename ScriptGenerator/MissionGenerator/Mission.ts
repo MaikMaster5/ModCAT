@@ -146,7 +146,7 @@ navigator.clipboard.writeText(clipboardcopy);
 
 
 const JSONPull = async () => {
-const response = await fetch("characterInfo.json");
+const response = await fetch("ScriptGenerator/MissionGenerator/characterInfo.json");
 const data = await response.json();
 console.log(JSON.stringify(data[clientList[currentclient]].controlpreview));
 (document.getElementById("contractClientImage") as HTMLImageElement).src = data[clientList[currentclient]].controlpreview;
