@@ -1,54 +1,18 @@
-//can one have more than one ship in a mission> (The big contract)
-//- */x (merge with prop?) 
-//A chat system similar to the one in game to build it would be nice (with popout */cogwheel) and a ship builder too
-//(:o colors based upon character color??)
-// revrender needs forward & back button
+"use strict";
+//Two SHI versions: ModCAT and OptCAT
+// - ModCAT should be used for save file access, log file creation and the loading of external scripts. | This has no/restrictedly repaired Steam Functionaliy
+// - OptCAT should remove all console logs, have cleaner code, more optimized loading and have bugs fixed (like no animation on propellor or stuff being Sync instead of async) | This has full Steam Functionality.
+// - Both could have some overlapping stuff? Though maybe fun trinkets like a speedrun timer or returning to old missions should just stay ModCAT exclusive.
+//Have a try catch for anything reading external files so browser functionality stays?
+//can one have more than one ship in a mission? (The big contract)
+// revrender needs forward & back button ( what is a revrender? )
 //not hard code version into the html?
 //move requirements above the parts options?
 //add a loader for js once its done like in game.
-//custom buttons for forward & backward in conversation
 //settings audio stuff
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var _this = this;
 //export stuff as files to be used in a mod folder
 //export character in character creator to the mod tool?
 //hold the phone, my mini sprites are... out of date?
-//export (review? dump?)
 //delete current
 //insert new here
 //edit existing export (file only? only work on verify?)
@@ -59,40 +23,34 @@ var _this = this;
 //remove the text input overlay and make it just work with editable elements
 //wog
 //grab element by id and style inner elements instead of all having their own id
-//click and change?
-//save file exporter?
 //missing external files should not corrupt the save in any caliber. Back-up saves will also be made regularly
 //While I can escape/catch the issue, I might just want to either fix the reader or disable it in the save.
-//Let the modded game be able to have any pre-existing asset be overwritten by external ones, and default back if those are gone.
-//This would be cool for like retexturing assets.
 //Maybe even down the line allow some featuresets of objects be brand new concepts not in the game or have script loaders for advanced mods?
 //Though number one priority is stability and steam functionality, as currently modifications can ruin a save for example, so I need a lot of escape clauses and value overrides, storage or removals.
-//Create a mod folder if it doesn't exist???? With some "place_mod_files_here" files etc
-//(are all modfiles .json? .pack? .SHI-t files? (or less vulgar ones, like .SHI-p or .MODCat etc.))
-//sadly, A lot of stuff is' le shite' so even with a lot finished, I feel obligated to not release the final build, though I probably will.
-//as I don't know what I'm doing, I am unaware of what boatload of security risks I'm bringing to the devs 
-//as not-unique missions are generated by a seed value between 0 & 1, I could make a menu where you can play a mission from a seed.
+//Create a mod folder if it doesn't exist???? With a "place_mod_files_here" file
+//(are all modfiles .json? .pack? .SHI-p or .MODCat?)
+//as not-unique missions are generated by a seed value, I could make a menu where you can play a mission from a seed.
 //could funnily share missions with one another like that. Maybe even display seed name in a non-unique mission?? (automatic) Text (string in box) to seed converter as well? Would be dope in the mod menu
-//mod in a feature that auto skips text and changes text speed for that line.
-var chapterArray = []; //nevermind, apparently this checks if you've completed a certain mission to unlock this one. either default to final (not post game) mission or none at all.
-var propertyListUsedInGame = [];
-var uniqueState = !0;
+//note: is a seed converter needed? the game uses the date as the daily seed! so it should already exist?
+//mod in a feature that automatically executes the NEXT text and one that changes text speed for that line. It would be cool if you could have the game take control like that.
+const propertyListUsedInGame = [];
+let uniqueState = !0;
 var preDialogueCurrent = 0;
 var preDialogueStrings = [""];
 document.getElementById("preCurrentAmountDialogue").innerText = preDialogueStrings.length.toString();
 document.getElementById("preCurrentDialoge").innerText = (preDialogueCurrent + 1).toString();
-var songlist = ["arrival", "lagrange", "haze", "breakbeat", "positron", "floating", "koyo", "azure", "ending", "credits", "cobaltcore"];
-var currentsong = 0;
-var clientList = ["selene", "wren", "grandma", "soggins", "meercat", "cat", "cat2", "outlaw", "scientist", "axel", "aaron", "rat", "amongus", "futureSelene", "garbogirl", "lilibri", "dummycharacter"];
+let songlist = ["arrival", "lagrange", "haze", "breakbeat", "positron", "floating", "koyo", "azure", "ending", "credits", "cobaltcore"];
+let currentsong = 0;
+let clientList = ["selene", "wren", "grandma", "soggins", "meercat", "cat", "cat2", "outlaw", "scientist", "axel", "aaron", "rat", "amongus", "futureSelene", "garbogirl", "lilibri", "dummycharacter"];
 //get real names from the Json.
-var currentclient = 0;
+let currentclient = 0;
 function pog() {
     document.getElementById("previewContractName").innerText = (document.getElementById("contractname").value !== "") ? document.getElementById("contractname").value : "contractname";
 }
 ;
 pog();
-var prebox = document.getElementById("prebox");
-var preboxrender = document.getElementById("preboxrender");
+let prebox = document.getElementById("prebox");
+let preboxrender = document.getElementById("preboxrender");
 function pog2() {
     console.log(prebox.value);
     preBoxMultiples(prebox);
@@ -107,65 +65,55 @@ function pog3() {
 ;
 pog3();
 function selectbutton() {
-    for (var i = 0; i < document.getElementsByClassName("ui-button").length; i++) {
+    for (let i = 0; i < document.getElementsByClassName("ui-button").length; i++) {
         document.getElementsByClassName("ui-button")[i].setAttribute("class", "ui-button");
     }
     ;
-    console.log(document.querySelectorAll("[active]").length);
-    for (var i = 0; i < document.querySelectorAll("[active]").length; i++) {
-        document.querySelectorAll("[active]")[i].setAttribute("active", "false");
+    console.log(document.querySelectorAll(`[active]`).length);
+    for (let i = 0; i < document.querySelectorAll(`[active]`).length; i++) {
+        document.querySelectorAll(`[active]`)[i].setAttribute("active", "false");
     }
     this.setAttribute("class", "ui-button ui-button-selected");
-    if (document.getElementById("editor-ui-".concat(this.getAttribute("name"))) !== null) {
-        document.getElementById("editor-ui-".concat(this.getAttribute("name"))).setAttribute("active", "true");
+    if (document.getElementById(`editor-ui-${this.getAttribute("name")}`) !== null) {
+        document.getElementById(`editor-ui-${this.getAttribute("name")}`).setAttribute("active", "true");
     }
     ;
-    if (document.getElementById("display-preview-".concat(this.getAttribute("name"))) !== null) {
-        document.getElementById("display-preview-".concat(this.getAttribute("name"))).setAttribute("active", "true");
+    if (document.getElementById(`display-preview-${this.getAttribute("name")}`) !== null) {
+        document.getElementById(`display-preview-${this.getAttribute("name")}`).setAttribute("active", "true");
     }
     ;
 }
 ;
 function exportQuery() {
-    var clipboardcopy = document.getElementById("query-export").innerText;
+    const clipboardcopy = document.getElementById("query-export").innerText;
     navigator.clipboard.writeText(clipboardcopy);
 }
 ;
-var JSONPull = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("ScriptGenerator/MissionGenerator/characterInfo.json")];
-            case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                data = _a.sent();
-                console.log(JSON.stringify(data[clientList[currentclient]].controlpreview));
-                document.getElementById("contractClientImage").src = data[clientList[currentclient]].controlpreview;
-                document.getElementById("pre-dialogue-sprite").src = data[clientList[currentclient]].controlpreview;
-                document.getElementById("post-dialogue-sprite").src = data[clientList[currentclient]].controlpreview;
-                document.getElementById("miniImage").src = data[clientList[currentclient]].contractpreview;
-                return [2 /*return*/];
-        }
-    });
-}); };
-var rewardValue = 0;
+const JSONPull = async () => {
+    const response = await fetch("ScriptGenerator/MissionGenerator/characterInfo.json");
+    const data = await response.json();
+    console.log(JSON.stringify(data[clientList[currentclient]].controlpreview));
+    document.getElementById("contractClientImage").src = data[clientList[currentclient]].controlpreview;
+    document.getElementById("pre-dialogue-sprite").src = data[clientList[currentclient]].controlpreview;
+    document.getElementById("post-dialogue-sprite").src = data[clientList[currentclient]].controlpreview;
+    document.getElementById("miniImage").src = data[clientList[currentclient]].contractpreview;
+};
+let rewardValue = 0;
 function generateExport() {
     document.getElementById("export").addEventListener("click", ExportFunction);
-    var contractcodename = "contractcodename";
-    var contractname = "Mission Name";
-    var contractdescription = "Contract Description";
-    var clientPic = "selene";
-    var song = "arrival";
-    var unlockedParts = "cabgold_3x2";
-    var unique = "!0";
-    var requirements = '{ type: "Command", limit: 1 },';
-    var reward = "";
-    var ship = "";
-    var scene = "";
-    var onelinepre = "";
-    var onelinepost = "";
+    let contractcodename = "contractcodename";
+    let contractname = "Mission Name";
+    let contractdescription = "Contract Description";
+    let clientPic = "selene";
+    let song = "arrival";
+    let unlockedParts = "cabgold_3x2";
+    let unique = "!0";
+    let requirements = '{ type: "Command", limit: 1 },';
+    let reward = "";
+    let ship = "";
+    let scene = "";
+    let onelinepre = "";
+    let onelinepost = "";
     function ExportFunction() {
         contractcodename = (document.getElementById("contractid").value == "") ? contractcodename : document.getElementById("contractid").value;
         contractname = (document.getElementById("contractname").value == "") ? contractname : document.getElementById("contractname").value;
@@ -174,18 +122,67 @@ function generateExport() {
         song = songlist[currentsong];
         onelinepre = document.getElementById("prebox").value;
         onelinepost = document.getElementById("postbox").value;
-        var allPreDialogue = preDialogueStrings;
-        var allPreDialogeCombined = [];
+        let allPreDialogue = preDialogueStrings;
+        let allPreDialogeCombined = [];
         console.log(allPreDialogue.length);
-        for (var i = 0; allPreDialogue.length > i; i++) {
+        for (let i = 0; allPreDialogue.length > i; i++) {
             console.log(allPreDialogue[i]);
-            allPreDialogeCombined.push("\"".concat(allPreDialogue[i], "\""));
+            allPreDialogeCombined.push(`"${allPreDialogue[i]}"`);
         }
         ;
-        var finalAllPreStringsCombined = (allPreDialogeCombined.toString() + ",");
+        let finalAllPreStringsCombined = (allPreDialogeCombined.toString() + ",");
         console.log(propertyListUsedInGame.toString().replace(/\(/g, '{').replace(/\)/g, '}'));
         //console.log("--- Export Result ---");
-        var contractexport = ("\n    \n    \n    ".concat(contractcodename, ": { //contractcodename is the mission name in the codes\n\n    //Critical Components (get a list of values you can put in here)\n  \n    name: \"").concat(contractname, "\", //name is the name appearing in game\n    description:\n    \"").concat(contractdescription, "\", //description is the description for the contract (does not show up in game)\n    clientPic: \"").concat(clientPic, "\", //clientPic the persona image that appears in the contract selector (defaulting to selene) (##gets pulled from a client list?)\n    song: \"").concat(song, "\", //song that plays in game (##gets pulled from a song list?)\n    storyDeps: [],  //If there's none or it's blank, it's at the start of your list!!!\n    unlockedParts: [\n      \"cabgold_3x2\",\n    ], //unlockedParts are parts you instantly unlock for free (mainly to get used in the mission) once starting the mission (defaulting to cabgold_3x2) ##Optional\n    unique: ").concat(uniqueState, ", //Unique !0 does I think the exact same thing as not having it here at all(?). !1 seems to behave like the infinite randomly generated missions post game?\n    requirements: [\n      ").concat(propertyListUsedInGame.toString().replace(/\(/g, '{').replace(/\)/g, '}'), ",\n    ], //requirements the requirements on the left side of the game get created here. (defaulting to needing 1 command)\n    reward: ").concat(rewardValue, ", //reward is a weird one, it comes in many forms. here G is a pre existing list of objects, but there are numerable, and sometimes the letter is just straight replaced with a custom list. It calculates like this, though it also calculates like 12e3 or some shit.\n    //create a toggle which makes it so reward is calculated upon used parts? Like, simple, detailed and advanced options.\n    //if you want a plain per part calculus, u(parts) would be fine. if you want more or less earnings, throw in an 0.01 <-> 9.99 * modifier or choose a pre-set list. If you wanna go spicy, create a custom list to subsitute (parts) write down a 12e3 esque value.\n    \n    //ship: g, //ship loads in a pre-build ship that's stored in the files\n    //scene: b.J, //does... something??? Might execute the ShipCAT introduction?\n  \n    // -= -= -=\n    //  Dialogue components (all the dialogue for this contract)\n  \n    script: {\n      before: [\n        Object(s.h)(\"").concat(clientPic, "\"),\n        ").concat(finalAllPreStringsCombined, "\n        //\"Dialogue Two!!!\", //Object is the chat prompt(? idk how to call it) specifically the .h value here. You can have multiple messages (seperated by \"\" & ,) here that each need an ENTER press to continue. The selene calls selene's default talking portrait\n        //Object(s.h)(\"selene.explains\"),\n        //\"Cooler Dialogue Three!!\", //Object here differs from the one above in that selene now switches over to the sub talking image .explains.\n        Object(s.d)(), //Object here has the D value which sends the player to the ship builder.\n      ],\n      //Note that while nothing's here written, the player does get send to the shipbuilder.\n      after: [\n        Object(s.h)(\"").concat(clientPic, "\"),\n        \"").concat(onelinepost, "\", //Object here is a dialoge for the after-building scene.\n        Object(s.b)(), //Object finishes the successfull contract.\n      ],\n    },\n  };\n    \n    \n    "));
+        let contractexport = (`
+    
+    
+    ${contractcodename}: { //contractcodename is the mission name in the codes
+
+    //Critical Components (get a list of values you can put in here)
+  
+    name: "${contractname}", //name is the name appearing in game
+    description:
+    "${contractdescription}", //description is the description for the contract (does not show up in game)
+    clientPic: "${clientPic}", //clientPic the persona image that appears in the contract selector (defaulting to selene) (##gets pulled from a client list?)
+    song: "${song}", //song that plays in game (##gets pulled from a song list?)
+    storyDeps: [],  //If there's none or it's blank, it's at the start of your list!!!
+    unlockedParts: [
+      "cabgold_3x2",
+    ], //unlockedParts are parts you instantly unlock for free (mainly to get used in the mission) once starting the mission (defaulting to cabgold_3x2) ##Optional
+    unique: ${uniqueState}, //Unique !0 does I think the exact same thing as not having it here at all(?). !1 seems to behave like the infinite randomly generated missions post game?
+    requirements: [
+      ${propertyListUsedInGame.toString().replace(/\(/g, '{').replace(/\)/g, '}')},
+    ], //requirements the requirements on the left side of the game get created here. (defaulting to needing 1 command)
+    reward: ${rewardValue}, //reward is a weird one, it comes in many forms. here G is a pre existing list of objects, but there are numerable, and sometimes the letter is just straight replaced with a custom list. It calculates like this, though it also calculates like 12e3 or some shit.
+    //create a toggle which makes it so reward is calculated upon used parts? Like, simple, detailed and advanced options.
+    //if you want a plain per part calculus, u(parts) would be fine. if you want more or less earnings, throw in an 0.01 <-> 9.99 * modifier or choose a pre-set list. If you wanna go spicy, create a custom list to subsitute (parts) write down a 12e3 esque value.
+    
+    //ship: g, //ship loads in a pre-build ship that's stored in the files
+    //scene: b.J, //does... something??? Might execute the ShipCAT introduction?
+  
+    // -= -= -=
+    //  Dialogue components (all the dialogue for this contract)
+  
+    script: {
+      before: [
+        Object(s.h)("${clientPic}"),
+        ${finalAllPreStringsCombined}
+        //"Dialogue Two!!!", //Object is the chat prompt(? idk how to call it) specifically the .h value here. You can have multiple messages (seperated by "" & ,) here that each need an ENTER press to continue. The selene calls selene's default talking portrait
+        //Object(s.h)("selene.explains"),
+        //"Cooler Dialogue Three!!", //Object here differs from the one above in that selene now switches over to the sub talking image .explains.
+        Object(s.d)(), //Object here has the D value which sends the player to the ship builder.
+      ],
+      //Note that while nothing's here written, the player does get send to the shipbuilder.
+      after: [
+        Object(s.h)("${clientPic}"),
+        "${onelinepost}", //Object here is a dialoge for the after-building scene.
+        Object(s.b)(), //Object finishes the successfull contract.
+      ],
+    },
+  };
+    
+    
+    `);
         //console.log(contractexport);
         //console.log("--- End of Result ---");
         document.getElementById("query-export").innerText = contractexport;
@@ -219,8 +216,8 @@ function musicSwap() {
     otherName = (currentsong === 3) ? "<br> (event horizon)" : otherName;
     otherName = (currentsong === 6) ? "<br> (cool guy)" : otherName;
     document.getElementById("displaySongName").innerHTML = songlist[currentsong] + otherName;
-    var song = document.getElementById(songlist[currentsong]);
-    for (var i = 0; i <= songlist.length - 1; i++) {
+    let song = document.getElementById(songlist[currentsong]);
+    for (let i = 0; i <= songlist.length - 1; i++) {
         (document.querySelectorAll("audio")[i]).pause();
         (document.querySelectorAll("audio")[i]).currentTime = 0;
     }
@@ -262,7 +259,7 @@ function clientSwap() {
     otherclient = (currentclient == 13) ? "<br> (Selene?)" : otherclient;
     otherclient = (currentclient == 14) ? "<br> (Garbage Girl)" : otherclient;
     otherclient = (currentclient == 16) ? "<br> (Myst)" : otherclient;
-    //too big too uneccesary, use the JSON for this.
+    //too big too unneccesary, use the JSON for this.
     document.getElementById("displayClientName").innerHTML = clientList[currentclient] + otherclient;
     document.getElementById("contract-pre-charactername").innerHTML = clientList[currentclient];
     document.getElementById("contract-post-charactername").innerHTML = clientList[currentclient];
@@ -271,8 +268,8 @@ function clientSwap() {
 ;
 clientSwap();
 function musicPlayPause() {
-    var song = document.getElementById(songlist[currentsong]);
-    var playbutton = document.getElementById("playpause");
+    let song = document.getElementById(songlist[currentsong]);
+    let playbutton = document.getElementById("playpause");
     console.log(song.paused);
     if (song.paused) {
         song.play();
@@ -319,8 +316,8 @@ function prePreviousButton() {
 ;
 function preBoxMultiples(prebox) {
     console.log(preDialogueStrings);
-    var preDialogueCount = preDialogueStrings.length;
-    var preDialogueCurrentString = prebox.value;
+    let preDialogueCount = preDialogueStrings.length;
+    let preDialogueCurrentString = prebox.value;
     console.log(preDialogueStrings);
     console.log(preDialogueCount);
     console.log(preDialogueCurrent);
@@ -371,29 +368,22 @@ function preAddCurrentTextbox() {
     document.getElementById("preCurrentDialoge").innerText = (preDialogueCurrent + 1).toString();
 } //merge with the Next functionality
 //Array of all current properties
-var propertyList = [];
+const propertyList = [];
 //Make it smarter than this, so its categorised in groups that can use other parameters.
-var usableTypeList = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range", "Armor", "Part", "Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
-var directionList = ["top", "bottom", "front", "rear"];
-var modeList = ["min", "max"];
-var partTypeList = (function () { return __awaiter(_this, void 0, void 0, function () {
-    var data;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, retrieveAllObjects()];
-            case 1:
-                data = _a.sent();
-                return [2 /*return*/, data];
-        }
-    });
-}); })();
-var unusableTypeList = ["Size", "Overlap", "Heat", "AttachedParts", "PositiveEnergy", "Hazard", "AllPartsFueled", "Profitable", "Radiation"]; //These don't do anything or are already standardly used, doen't crash the game though. //Instead of hazard, create obstruction? view windows that can be obsctructed, but the half that is doesn't count.
+const usableTypeList = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range", "Armor", "Part", "Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
+const directionList = ["top", "bottom", "front", "rear"];
+const modeList = ["min", "max"];
+const partTypeList = (async () => {
+    const data = await retrieveAllObjects();
+    return data;
+})();
+const unusableTypeList = ["Size", "Overlap", "Heat", "AttachedParts", "PositiveEnergy", "Hazard", "AllPartsFueled", "Profitable", "Radiation"]; //These don't do anything or are already standardly used, doen't crash the game though. //Instead of hazard, create obstruction? view windows that can be obsctructed, but the half that is doesn't count.
 //}
 //}
 //The set variables for one (with checks verifying these)
-var currentRequirementSelection;
-var currentRequiredPartSelection;
-var currentDirectionSelection;
+let currentRequirementSelection;
+let currentRequiredPartSelection;
+let currentDirectionSelection;
 //if type from *LIST*, also check for these properties, else, disregard them as they are optional in that regard.
 var newRequirements = {};
 // newRequirements.type; //##This displays different on Directions or Part Types, so create custom names, like as in the json?
@@ -403,149 +393,106 @@ var newRequirements = {};
 // newRequirements.limit = 0;
 //Green if valid? Red delete? What do I want with the colouring?
 //Image be item/requirement preview??
-function addRequirementExecutor() {
-    return __awaiter(this, void 0, void 0, function () {
-        var arrayOfAllRequirements, i, requirementTitle, _a, _b, _c, _d, requirementProcess, requirementLimit, _e, _f, _g, _h, _j, requirement;
-        return __generator(this, function (_k) {
-            switch (_k.label) {
-                case 0:
-                    if (newRequirements.type === "Part") {
-                        Object.keys(newRequirements).forEach(function (itm) {
-                            if (itm != "type" && itm != "mode" && itm != "partType" && itm != "limit")
-                                delete newRequirements[itm];
-                        });
-                    }
-                    else if (newRequirements.type === "Armor") {
-                        Object.keys(newRequirements).forEach(function (itm) {
-                            if (itm != "type" && itm != "direction")
-                                delete newRequirements[itm];
-                        });
-                    }
-                    else if (newRequirements.type === undefined) {
-                        Object.keys(newRequirements).forEach(function (itm) {
-                            delete newRequirements[itm];
-                            console.log("##Fix invalid statements##");
-                        });
-                    }
-                    else {
-                        Object.keys(newRequirements).forEach(function (itm) {
-                            if (itm != "type" && itm != "limit")
-                                delete newRequirements[itm];
-                        });
-                    }
-                    ;
-                    // console.log("##")
-                    // console.log(currentRequirementSelection);
-                    // console.log(usableTypeList[currentRequirementSelection]);
-                    // console.log("--")
-                    // console.log((await newRequirements));
-                    // console.log((await newRequirements.type));
-                    // console.log("##");
-                    // console.log("-StoreInArray-");
-                    // console.log((newRequirements));
-                    // console.log(JSON.stringify((newRequirements)).replace("{","(").replace("}",")").replace(/"([^"]+)":/g, '$1:'));
-                    propertyListUsedInGame.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")").replace(/"([^"]+)":/g, '$1:')));
-                    // console.log(propertyListUsedInGame);
-                    propertyList.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")")));
-                    console.log(propertyList);
-                    arrayOfAllRequirements = function (i) { return JSON.parse(propertyList[i].replace("(", "{").replace(")", "}")); };
-                    // console.log(propertyList.length)
-                    // console.log("-StoreInArray-")
-                    document.getElementById("requirementsList").innerHTML = "";
-                    i = 0;
-                    _k.label = 1;
-                case 1:
-                    if (!(i < propertyList.length)) return [3 /*break*/, 17];
-                    requirementTitle = document.createElement("span");
-                    requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 170px; position: relative; top:-4px; text-transform: capitalize;");
-                    return [4 /*yield*/, arrayOfAllRequirements(i).type];
-                case 2:
-                    if (!((_k.sent()) === "Part")) return [3 /*break*/, 4];
-                    _a = requirementTitle;
-                    return [4 /*yield*/, arrayOfAllRequirements(i).partType];
-                case 3:
-                    _a.innerText = (_k.sent()).replaceAll("_", " ");
-                    return [3 /*break*/, 6];
-                case 4:
-                    _b = requirementTitle;
-                    return [4 /*yield*/, arrayOfAllRequirements(i).type];
-                case 5:
-                    _b.innerText = (_k.sent());
-                    _k.label = 6;
-                case 6:
-                    ;
-                    console.log(i);
-                    _d = (_c = console).log;
-                    return [4 /*yield*/, arrayOfAllRequirements(i).type];
-                case 7:
-                    _d.apply(_c, [_k.sent()]);
-                    requirementProcess = document.createElement("span");
-                    requirementProcess.setAttribute("style", "text-align: center; display: inline-block; width: 170px; position: relative; top:-4px; left: 8px;");
-                    requirementProcess.innerText = "|";
-                    requirementLimit = document.createElement("span");
-                    requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 170px; position: relative; top:-4px; left: 0px;");
-                    requirementLimit.innerText = arrayOfAllRequirements(i).limit;
-                    return [4 /*yield*/, arrayOfAllRequirements(i).mode];
-                case 8:
-                    if (!((_k.sent()) === "min")) return [3 /*break*/, 10];
-                    _e = requirementLimit;
-                    _f = ">= ";
-                    return [4 /*yield*/, arrayOfAllRequirements(i).limit];
-                case 9:
-                    _e.innerText = (_f + (_k.sent()));
-                    return [3 /*break*/, 15];
-                case 10: return [4 /*yield*/, arrayOfAllRequirements(i).mode];
-                case 11:
-                    if (!((_k.sent()) === "max")) return [3 /*break*/, 13];
-                    _g = requirementLimit;
-                    _h = "<= ";
-                    return [4 /*yield*/, arrayOfAllRequirements(i).limit];
-                case 12:
-                    _g.innerText = (_h + (_k.sent()));
-                    return [3 /*break*/, 15];
-                case 13:
-                    _j = requirementLimit;
-                    return [4 /*yield*/, arrayOfAllRequirements(i).limit];
-                case 14:
-                    _j.innerText = (_k.sent());
-                    _k.label = 15;
-                case 15:
-                    ; //this one's actually for the | up there.
-                    requirementLimit.innerHTML = requirementLimit.innerHTML + "\u200E <img src=\"ScriptGenerator/MissionGenerator/XMark.png\" style=\"position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;\">";
-                    requirement = document.createElement("ul");
-                    requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
-                    requirement.append(requirementTitle, requirementProcess, requirementLimit);
-                    document.getElementById("requirementsList").append(requirement);
-                    _k.label = 16;
-                case 16:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 17:
-                    newRequirements = {};
-                    document.getElementById("currentRequirementSelection").innerText = "[Not Selected] ";
-                    document.getElementById("currentRequiredPartSelection").innerText = "[Not Selected] ";
-                    document.getElementById("currentDirectionSelection").innerText = "[Not Selected] ";
-                    document.getElementById("modeMinimum").innerText = "Min";
-                    document.getElementById("modeMaximum").innerText = "Max";
-                    document.getElementById("limitValueBox").value = '';
-                    document.getElementById("customValueBox").value = '';
-                    document.getElementById("required-part-element").style.visibility = "hidden";
-                    document.getElementById("mode-element").style.visibility = "hidden";
-                    document.getElementById("direction-element").style.visibility = "hidden";
-                    document.getElementById("value-element").style.visibility = "hidden";
-                    document.getElementById("custom-parameter-element").style.visibility = "hidden";
-                    return [2 /*return*/];
-            }
+async function addRequirementExecutor() {
+    if (newRequirements.type === "Part") {
+        Object.keys(newRequirements).forEach(function (itm) {
+            if (itm != "type" && itm != "mode" && itm != "partType" && itm != "limit")
+                delete newRequirements[itm];
         });
-    });
+    }
+    else if (newRequirements.type === "Armor") {
+        Object.keys(newRequirements).forEach(function (itm) {
+            if (itm != "type" && itm != "direction")
+                delete newRequirements[itm];
+        });
+    }
+    else if (newRequirements.type === undefined) {
+        Object.keys(newRequirements).forEach(function (itm) {
+            delete newRequirements[itm];
+            console.log("##Fix invalid statements##");
+        });
+    }
+    else {
+        Object.keys(newRequirements).forEach(function (itm) {
+            if (itm != "type" && itm != "limit")
+                delete newRequirements[itm];
+        });
+    }
+    ;
+    // console.log("##")
+    // console.log(currentRequirementSelection);
+    // console.log(usableTypeList[currentRequirementSelection]);
+    // console.log("--")
+    // console.log((await newRequirements));
+    // console.log((await newRequirements.type));
+    // console.log("##");
+    // console.log("-StoreInArray-");
+    // console.log((newRequirements));
+    // console.log(JSON.stringify((newRequirements)).replace("{","(").replace("}",")").replace(/"([^"]+)":/g, '$1:'));
+    propertyListUsedInGame.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")").replace(/"([^"]+)":/g, '$1:')));
+    // console.log(propertyListUsedInGame);
+    propertyList.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")")));
+    console.log(propertyList);
+    const arrayOfAllRequirements = (i) => { return JSON.parse(propertyList[i].replace("(", "{").replace(")", "}")); };
+    // console.log(propertyList.length)
+    // console.log("-StoreInArray-")
+    document.getElementById("requirementsList").innerHTML = "";
+    for (let i = 0; i < propertyList.length; i++) {
+        const requirementTitle = document.createElement("span");
+        requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 170px; position: relative; top:-4px; text-transform: capitalize;");
+        if (await arrayOfAllRequirements(i).type === "Part") {
+            requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_", " ");
+        }
+        else {
+            requirementTitle.innerText = (await arrayOfAllRequirements(i).type);
+        }
+        ;
+        console.log(i);
+        console.log(await arrayOfAllRequirements(i).type);
+        const requirementProcess = document.createElement("span");
+        requirementProcess.setAttribute("style", "text-align: center; display: inline-block; width: 170px; position: relative; top:-4px; left: 8px;");
+        requirementProcess.innerText = "|";
+        const requirementLimit = document.createElement("span");
+        requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 170px; position: relative; top:-4px; left: 0px;");
+        requirementLimit.innerText = arrayOfAllRequirements(i).limit;
+        if (await arrayOfAllRequirements(i).mode === "min") {
+            requirementLimit.innerText = (">= " + await arrayOfAllRequirements(i).limit);
+        }
+        else if (await arrayOfAllRequirements(i).mode === "max") {
+            requirementLimit.innerText = ("<= " + await arrayOfAllRequirements(i).limit);
+        }
+        else {
+            requirementLimit.innerText = (await arrayOfAllRequirements(i).limit);
+        }
+        ; //this one's actually for the | up there.
+        requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
+        const requirement = document.createElement("ul");
+        requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
+        requirement.append(requirementTitle, requirementProcess, requirementLimit);
+        document.getElementById("requirementsList").append(requirement);
+        //instead of making it appear in list from whats given, eventually make list generate from array of existing ones so it, you know, works better.
+    }
+    newRequirements = {};
+    document.getElementById("currentRequirementSelection").innerText = "[Not Selected] ";
+    document.getElementById("currentRequiredPartSelection").innerText = "[Not Selected] ";
+    document.getElementById("currentDirectionSelection").innerText = "[Not Selected] ";
+    document.getElementById("modeMinimum").innerText = "Min";
+    document.getElementById("modeMaximum").innerText = "Max";
+    document.getElementById("limitValueBox").value = '';
+    document.getElementById("customValueBox").value = '';
+    document.getElementById("required-part-element").style.visibility = "hidden";
+    document.getElementById("mode-element").style.visibility = "hidden";
+    document.getElementById("direction-element").style.visibility = "hidden";
+    document.getElementById("value-element").style.visibility = "hidden";
+    document.getElementById("custom-parameter-element").style.visibility = "hidden";
 }
 //##
 //#  Dropdown system for requirements
 //##
 function requirementDropdown() {
-    for (var i = 0; i < usableTypeList.length; i++) {
-        var current = document.getElementsByClassName("requirementclass")[i].style.display;
-        var expr = current;
+    for (let i = 0; i < usableTypeList.length; i++) {
+        const current = document.getElementsByClassName("requirementclass")[i].style.display;
+        const expr = current;
         switch (expr) {
             case 'none':
                 document.getElementsByClassName("requirementclass")[i].style.display = "block";
@@ -563,8 +510,8 @@ function requirementDropdown() {
 ;
 function GenerateRequirementList() {
     document.getElementById("requirementTypeList").innerHTML = "";
-    for (var i = 0; i < usableTypeList.length; i++) {
-        var requirementTypeList = document.createElement("li");
+    for (let i = 0; i < usableTypeList.length; i++) {
+        const requirementTypeList = document.createElement("li");
         requirementTypeList.setAttribute("class", "interactible requirementclass requirementTypeListID");
         requirementTypeList.setAttribute("style", "display: none;");
         requirementTypeList.setAttribute("tabindex", "0");
@@ -575,57 +522,45 @@ function GenerateRequirementList() {
     }
 }
 GenerateRequirementList();
-function storeRequirementSelection(i) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a, currentSelectionAsText;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (usableTypeList[i] === "Part") {
-                        document.getElementById("direction-element").style.visibility = "hidden";
-                        document.getElementById("value-element").style.visibility = "visible";
-                        document.getElementById("custom-parameter-element").style.visibility = "hidden";
-                        document.getElementById("mode-element").style.visibility = "visible";
-                        document.getElementById("required-part-element").style.visibility = "visible";
-                    }
-                    else if (usableTypeList[i] !== "Armor") {
-                        document.getElementById("required-part-element").style.visibility = "hidden";
-                        document.getElementById("mode-element").style.visibility = "hidden";
-                        document.getElementById("direction-element").style.visibility = "hidden";
-                        document.getElementById("value-element").style.visibility = "visible";
-                        document.getElementById("custom-parameter-element").style.visibility = "hidden";
-                    }
-                    ;
-                    if (usableTypeList[i] === "Armor") {
-                        document.getElementById("direction-element").style.visibility = "visible";
-                        document.getElementById("value-element").style.visibility = "hidden";
-                        document.getElementById("custom-parameter-element").style.visibility = "hidden";
-                        document.getElementById("mode-element").style.visibility = "hidden";
-                        document.getElementById("required-part-element").style.visibility = "hidden";
-                    }
-                    else if (usableTypeList[i] !== "Part") {
-                        document.getElementById("required-part-element").style.visibility = "hidden";
-                        document.getElementById("mode-element").style.visibility = "hidden";
-                        document.getElementById("direction-element").style.visibility = "hidden";
-                        document.getElementById("value-element").style.visibility = "visible";
-                        document.getElementById("custom-parameter-element").style.visibility = "hidden";
-                    }
-                    ;
-                    currentRequirementSelection = i;
-                    _a = newRequirements;
-                    return [4 /*yield*/, usableTypeList[currentRequirementSelection]];
-                case 1:
-                    _a.type = _b.sent();
-                    currentSelectionAsText = usableTypeList[i];
-                    console.log(currentRequirementSelection + currentSelectionAsText);
-                    document.getElementById("currentRequirementSelection").innerText = currentSelectionAsText;
-                    return [2 /*return*/];
-            }
-        });
-    });
+async function storeRequirementSelection(i) {
+    if (usableTypeList[i] === "Part") {
+        document.getElementById("direction-element").style.visibility = "hidden";
+        document.getElementById("value-element").style.visibility = "visible";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "visible";
+        document.getElementById("required-part-element").style.visibility = "visible";
+    }
+    else if (usableTypeList[i] !== "Armor") {
+        document.getElementById("required-part-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("direction-element").style.visibility = "hidden";
+        document.getElementById("value-element").style.visibility = "visible";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+    }
+    ;
+    if (usableTypeList[i] === "Armor") {
+        document.getElementById("direction-element").style.visibility = "visible";
+        document.getElementById("value-element").style.visibility = "hidden";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("required-part-element").style.visibility = "hidden";
+    }
+    else if (usableTypeList[i] !== "Part") {
+        document.getElementById("required-part-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("direction-element").style.visibility = "hidden";
+        document.getElementById("value-element").style.visibility = "visible";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+    }
+    ;
+    currentRequirementSelection = i;
+    newRequirements.type = await usableTypeList[currentRequirementSelection];
+    const currentSelectionAsText = usableTypeList[i];
+    console.log(currentRequirementSelection + currentSelectionAsText);
+    document.getElementById("currentRequirementSelection").innerText = currentSelectionAsText;
 }
 ;
-for (var i = 0; i < usableTypeList.length; i++) {
+for (let i = 0; i < usableTypeList.length; i++) {
     document.getElementsByClassName("requirementTypeListID")[i].addEventListener("mousedown", storeRequirementSelection.bind(this, i));
 }
 //##
@@ -634,125 +569,51 @@ for (var i = 0; i < usableTypeList.length; i++) {
 //##
 //#  Dropdown system for required parts
 //##
-function requiredPartDropdown() {
-    return __awaiter(this, void 0, void 0, function () {
-        var i, _a, current, expr;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    i = 0;
-                    _b.label = 1;
-                case 1:
-                    _a = i;
-                    return [4 /*yield*/, partTypeList];
-                case 2:
-                    if (!(_a < (_b.sent()).length)) return [3 /*break*/, 4];
-                    current = document.getElementsByClassName("requiredPartclass")[i].style.display;
-                    expr = current;
-                    switch (expr) {
-                        case 'none':
-                            document.getElementsByClassName("requiredPartclass")[i].style.display = "block";
-                            document.getElementById("currentRequiredPartSelectionDirection").innerText = "↑";
-                            document.getElementById("requiredPartTypeList").style.height = "100px";
-                            break;
-                        case 'block':
-                            document.getElementsByClassName("requiredPartclass")[i].style.display = "none";
-                            document.getElementById("currentRequiredPartSelectionDirection").innerText = "↓";
-                            document.getElementById("requiredPartTypeList").style.height = "0px";
-                            break;
-                    }
-                    _b.label = 3;
-                case 3:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
-            }
-        });
-    });
+async function requiredPartDropdown() {
+    for (let i = 0; i < (await partTypeList).length; i++) {
+        const current = document.getElementsByClassName("requiredPartclass")[i].style.display;
+        const expr = current;
+        switch (expr) {
+            case 'none':
+                document.getElementsByClassName("requiredPartclass")[i].style.display = "block";
+                document.getElementById("currentRequiredPartSelectionDirection").innerText = "↑";
+                document.getElementById("requiredPartTypeList").style.height = "100px";
+                break;
+            case 'block':
+                document.getElementsByClassName("requiredPartclass")[i].style.display = "none";
+                document.getElementById("currentRequiredPartSelectionDirection").innerText = "↓";
+                document.getElementById("requiredPartTypeList").style.height = "0px";
+                break;
+        }
+    }
 }
 ;
-function GenerateRequiredPartList() {
-    return __awaiter(this, void 0, void 0, function () {
-        var i, _a, requiredPartTypeList, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    document.getElementById("requiredPartTypeList").innerHTML = "";
-                    i = 0;
-                    _c.label = 1;
-                case 1:
-                    _a = i;
-                    return [4 /*yield*/, partTypeList];
-                case 2:
-                    if (!(_a < (_c.sent()).length)) return [3 /*break*/, 5];
-                    requiredPartTypeList = document.createElement("li");
-                    requiredPartTypeList.setAttribute("class", "interactible requiredPartclass requiredPartTypeListID");
-                    requiredPartTypeList.setAttribute("style", "display: none;");
-                    _b = requiredPartTypeList;
-                    return [4 /*yield*/, partTypeList];
-                case 3:
-                    _b.innerText = (_c.sent())[i];
-                    //console.log(partTypeList[i]);
-                    document.getElementById("requiredPartTypeList").append(requiredPartTypeList);
-                    _c.label = 4;
-                case 4:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 5: return [2 /*return*/];
-            }
-        });
-    });
+async function GenerateRequiredPartList() {
+    document.getElementById("requiredPartTypeList").innerHTML = "";
+    for (let i = 0; i < (await partTypeList).length; i++) {
+        const requiredPartTypeList = document.createElement("li");
+        requiredPartTypeList.setAttribute("class", "interactible requiredPartclass requiredPartTypeListID");
+        requiredPartTypeList.setAttribute("style", "display: none;");
+        requiredPartTypeList.innerText = (await partTypeList)[i];
+        //console.log(partTypeList[i]);
+        document.getElementById("requiredPartTypeList").append(requiredPartTypeList);
+        //instead of making it appear in list from whats given, eventually make list generate from array of existing ones so it, you know, works better.
+    }
 }
 GenerateRequiredPartList();
-function storeRequiredPartSelection(i) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a, currentSelectionAsText;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    currentRequiredPartSelection = i;
-                    _a = newRequirements;
-                    return [4 /*yield*/, partTypeList];
-                case 1:
-                    _a.partType = (_b.sent())[currentRequiredPartSelection];
-                    return [4 /*yield*/, partTypeList];
-                case 2:
-                    currentSelectionAsText = (_b.sent())[i];
-                    console.log(currentRequiredPartSelection + currentSelectionAsText);
-                    document.getElementById("currentRequiredPartSelection").innerText = currentSelectionAsText;
-                    return [2 /*return*/];
-            }
-        });
-    });
+async function storeRequiredPartSelection(i) {
+    currentRequiredPartSelection = i;
+    newRequirements.partType = (await partTypeList)[currentRequiredPartSelection];
+    const currentSelectionAsText = (await partTypeList)[i];
+    console.log(currentRequiredPartSelection + currentSelectionAsText);
+    document.getElementById("currentRequiredPartSelection").innerText = currentSelectionAsText;
 }
 ;
-function addEventlisteners() {
-    return __awaiter(this, void 0, void 0, function () {
-        var generationLength, i, _a, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0: return [4 /*yield*/, partTypeList];
-                case 1:
-                    generationLength = (_c.sent());
-                    i = 0;
-                    _c.label = 2;
-                case 2:
-                    _a = i;
-                    return [4 /*yield*/, generationLength.length];
-                case 3:
-                    if (!(_a < (_c.sent()))) return [3 /*break*/, 6];
-                    _b = document.getElementsByClassName("requiredPartTypeListID");
-                    return [4 /*yield*/, i];
-                case 4:
-                    _b[_c.sent()].addEventListener("mousedown", storeRequiredPartSelection.bind(this, i));
-                    _c.label = 5;
-                case 5:
-                    i++;
-                    return [3 /*break*/, 2];
-                case 6: return [2 /*return*/];
-            }
-        });
-    });
+async function addEventlisteners() {
+    const generationLength = (await partTypeList);
+    for (let i = 0; i < await generationLength.length; i++) {
+        document.getElementsByClassName("requiredPartTypeListID")[await i].addEventListener("mousedown", storeRequiredPartSelection.bind(this, i));
+    }
 }
 addEventlisteners();
 //##
@@ -762,9 +623,9 @@ addEventlisteners();
 //#  Direction system
 //##
 function DirectionDropdown() {
-    for (var i = 0; i < directionList.length; i++) {
-        var current = document.getElementsByClassName("directionclass")[i].style.display;
-        var expr = current;
+    for (let i = 0; i < directionList.length; i++) {
+        const current = document.getElementsByClassName("directionclass")[i].style.display;
+        const expr = current;
         switch (expr) {
             case 'none':
                 document.getElementsByClassName("directionclass")[i].style.display = "block";
@@ -782,8 +643,8 @@ function DirectionDropdown() {
 ;
 function GenerateDirectionList() {
     document.getElementById("directionList").innerHTML = "";
-    for (var i = 0; i < directionList.length; i++) {
-        var directionListElement = document.createElement("li");
+    for (let i = 0; i < directionList.length; i++) {
+        const directionListElement = document.createElement("li");
         directionListElement.setAttribute("class", "interactible directionclass directionListID");
         directionListElement.setAttribute("style", "display: none;");
         directionListElement.innerText = directionList[i];
@@ -793,26 +654,14 @@ function GenerateDirectionList() {
     }
 }
 GenerateDirectionList();
-function storeDirectionSelection(i) {
-    return __awaiter(this, void 0, void 0, function () {
-        var currentSelectionAsText, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    currentDirectionSelection = i;
-                    currentSelectionAsText = directionList[i];
-                    _a = newRequirements;
-                    return [4 /*yield*/, directionList[i]];
-                case 1:
-                    _a.direction = _b.sent();
-                    document.getElementById("currentDirectionSelection").innerText = currentSelectionAsText;
-                    return [2 /*return*/];
-            }
-        });
-    });
+async function storeDirectionSelection(i) {
+    currentDirectionSelection = i;
+    const currentSelectionAsText = directionList[i];
+    newRequirements.direction = await directionList[i];
+    document.getElementById("currentDirectionSelection").innerText = currentSelectionAsText;
 }
 ;
-for (var i = 0; i < directionList.length; i++) {
+for (let i = 0; i < directionList.length; i++) {
     document.getElementsByClassName("directionListID")[i].addEventListener("mousedown", storeDirectionSelection.bind(this, i));
 }
 ;
@@ -842,42 +691,22 @@ function rewardValueRetrieve() {
         document.getElementById("previewContractCost").innerText = rewardValue.toLocaleString();
     }, 1);
 }
-function retrieveAllObjects() {
-    return __awaiter(this, void 0, void 0, function () {
-        var objectList, arrayOfObjects;
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    objectList = function () { return __awaiter(_this, void 0, void 0, function () {
-                        var vanillaObjectList, cool, arrayOfObjects, i, pushme;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, fetch("./objects.json")];
-                                case 1:
-                                    vanillaObjectList = _a.sent();
-                                    return [4 /*yield*/, vanillaObjectList.json()];
-                                case 2:
-                                    cool = _a.sent();
-                                    arrayOfObjects = [];
-                                    for (i = 0; i < Object.keys(cool).length; i++) {
-                                        pushme = Object.keys(cool)[i];
-                                        //console.log(pushme)
-                                        arrayOfObjects.push(pushme);
-                                    }
-                                    //console.log(arrayOfObjects)
-                                    return [2 /*return*/, arrayOfObjects];
-                            }
-                        });
-                    }); };
-                    return [4 /*yield*/, objectList()];
-                case 1:
-                    arrayOfObjects = _a.sent();
-                    console.log(arrayOfObjects);
-                    return [2 /*return*/, arrayOfObjects];
-            }
-        });
-    });
+async function retrieveAllObjects() {
+    let objectList = async () => {
+        const vanillaObjectList = await fetch("./objects.json");
+        let cool = await vanillaObjectList.json();
+        const arrayOfObjects = [];
+        for (let i = 0; i < Object.keys(cool).length; i++) {
+            let pushme = Object.keys(cool)[i];
+            //console.log(pushme)
+            arrayOfObjects.push(pushme);
+        }
+        //console.log(arrayOfObjects)
+        return arrayOfObjects;
+    };
+    const arrayOfObjects = await objectList();
+    console.log(arrayOfObjects);
+    return arrayOfObjects;
 }
 ;
 function uniqueSwitch() {
@@ -906,7 +735,7 @@ function eventListeners() {
     document.getElementById("contractname").addEventListener("input", pog);
     document.getElementById("prebox").addEventListener("input", pog2);
     document.getElementById("postbox").addEventListener("input", pog3);
-    for (var i = 0; i < document.getElementsByClassName("ui-button").length; i++) {
+    for (let i = 0; i < document.getElementsByClassName("ui-button").length; i++) {
         document.getElementsByClassName("ui-button")[i].addEventListener("click", selectbutton);
     }
     ;

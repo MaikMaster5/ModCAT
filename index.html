@@ -103,6 +103,17 @@
                         </section>
 
                     </section>
+
+                    <section style="position: relative; top: 40px;">
+                        <div style="position: relative; top: 0px; color: rgb(89, 91, 177);; ">Details:</div>
+                        <div style="position: relative; top: 10px; color: rgb(89, 91, 177); text-decoration: overline;">new parts unlocked:</div>
+                        <div style="position: relative; top: 0px; color: rgb(77, 64, 146);">part1, part2, part3, part4</div>
+                        <div style="position: relative; top: 5px; color: rgb(89, 91, 177);">new parts for sale:</div>
+                        <div style="position: relative; top: -5px; color: rgb(77, 64, 146);">part1, part2, part3, part4</div>
+                        <div style="position: relative; top: 5px; color: rgb(89, 91, 177);">required contracts:</div>
+                        <div style="position: relative; top: -5px; color: rgb(77, 64, 146);">tutorial, other_tutorial_name, fakemission, new_line_mission</div>
+                    </section>
+
                 </section>
                     </section>
 
@@ -311,11 +322,11 @@
                         <div style="position: relative; background-color: #00000065; width: 266px;">[Not Selected] ↓ <span class="scrollbuttons" style="color: rgb(177, 177, 177);">[+]</span></div>
                         </div>
 
-                    <div style="visibility: visible; position: relative; top: 30px; width: 300px;">Reward: 
-                    <div><input type="number" id="rewardValueBox" style="position: relative; background-color: #00000065; width: 262px; border: none; outline: none; height: 32px; top: -3px; color: rgb(233, 229, 215);"></div>
+                    <div style="visibility: visible; position: relative; top: 30px; width: 300px;">Reward (swap): 
+                    <div><input type="string" id="rewardValueBox" min="0" max="999999" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');" style="position: relative; background-color: #00000065; width: 262px; border: none; outline: none; height: 32px; top: -3px; color: rgb(233, 229, 215);"></div>
                     </div>
-                    <div style="visibility: visible; position: relative; top: 50px; width: 300px;">Req Missions: &lt;&lt; &gt;&gt;
-                    <div>Tutorial</div> 
+                    <div style="visibility: visible; position: relative; top: 30px; width: 300px;">Required Contracts: 
+                    <div><input type="string" style="position: relative; background-color: #00000065; width: 262px; border: none; outline: none; height: 32px; top: -3px; color: rgb(233, 229, 215);"></div>
                     </div>
                     <div style="visibility: visible; position: relative; top: 55px; width: 300px;">Ship: &lt;&lt; &gt;&gt;
                     <div>ID-01</div> 
