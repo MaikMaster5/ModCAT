@@ -511,7 +511,7 @@ function addRequirementExecutor() {
                     _k.label = 15;
                 case 15:
                     ; //this one's actually for the | up there.
-                    requirementLimit.innerHTML = requirementLimit.innerHTML + "\u200E <img src=\"ModCAT/ScriptGenerator/MissionGenerator/XMark.png\" style=\"position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;\">";
+                    requirementLimit.innerHTML = requirementLimit.innerHTML + "\u200E <img src=\"ScriptGenerator/MissionGenerator/XMark.png\" style=\"position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;\">";
                     requirement = document.createElement("ul");
                     requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
                     requirement.append(requirementTitle, requirementProcess, requirementLimit);

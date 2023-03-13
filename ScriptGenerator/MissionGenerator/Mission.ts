@@ -663,7 +663,7 @@ requirementLimit.innerText = (">= " + await arrayOfAllRequirements(i).limit)
 }; //this one's actually for the | up there.
 
 
-requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ModCAT/ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
+requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
 
 
 
