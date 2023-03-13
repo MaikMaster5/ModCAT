@@ -33,6 +33,7 @@
 //could funnily share missions with one another like that. Maybe even display seed name in a non-unique mission?? (automatic) Text (string in box) to seed converter as well? Would be dope in the mod menu
 //note: is a seed converter needed? the game uses the date as the daily seed! so it should already exist?
 //mod in a feature that automatically executes the NEXT text and one that changes text speed for that line. It would be cool if you could have the game take control like that.
+//have a blank Reward box throw in a calculated reward instead.
 const propertyListUsedInGame = [];
 let uniqueState = !0;
 var preDialogueCurrent = 0;
@@ -439,7 +440,7 @@ async function addRequirementExecutor() {
     document.getElementById("requirementsList").innerHTML = "";
     for (let i = 0; i < propertyList.length; i++) {
         const requirementTitle = document.createElement("span");
-        requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 170px; position: relative; top:-4px; text-transform: capitalize;");
+        requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 250px; position: relative; top:-4px; text-transform: capitalize;");
         if (await arrayOfAllRequirements(i).type === "Part") {
             requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_", " ");
         }
@@ -449,22 +450,23 @@ async function addRequirementExecutor() {
         ;
         console.log(i);
         console.log(await arrayOfAllRequirements(i).type);
-        const requirementProcess = document.createElement("span");
-        requirementProcess.setAttribute("style", "text-align: center; display: inline-block; width: 170px; position: relative; top:-4px; left: 8px;");
-        requirementProcess.innerText = "|";
-        const requirementLimit = document.createElement("span");
-        requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 170px; position: relative; top:-4px; left: 0px;");
-        requirementLimit.innerText = arrayOfAllRequirements(i).limit;
+        let displayedValue = await arrayOfAllRequirements(i).limit;
         if (await arrayOfAllRequirements(i).mode === "min") {
-            requirementLimit.innerText = (">= " + await arrayOfAllRequirements(i).limit);
+            displayedValue = (">= " + await arrayOfAllRequirements(i).limit);
         }
         else if (await arrayOfAllRequirements(i).mode === "max") {
-            requirementLimit.innerText = ("<= " + await arrayOfAllRequirements(i).limit);
+            displayedValue = ("<= " + await arrayOfAllRequirements(i).limit);
         }
         else {
-            requirementLimit.innerText = (await arrayOfAllRequirements(i).limit);
+            displayedValue = (await arrayOfAllRequirements(i).limit);
         }
-        ; //this one's actually for the | up there.
+        ;
+        const requirementProcess = document.createElement("span");
+        requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px;");
+        requirementProcess.innerText = "| " + String(displayedValue);
+        const requirementLimit = document.createElement("span");
+        requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px;");
+        requirementLimit.innerText = "";
         requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
         const requirement = document.createElement("ul");
         requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
@@ -542,12 +544,12 @@ async function storeRequirementSelection(i) {
         document.getElementById("direction-element").style.visibility = "visible";
         document.getElementById("value-element").style.visibility = "hidden";
         document.getElementById("custom-parameter-element").style.visibility = "hidden";
-        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "visible";
         document.getElementById("required-part-element").style.visibility = "hidden";
     }
     else if (usableTypeList[i] !== "Part") {
         document.getElementById("required-part-element").style.visibility = "hidden";
-        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "visible";
         document.getElementById("direction-element").style.visibility = "hidden";
         document.getElementById("value-element").style.visibility = "visible";
         document.getElementById("custom-parameter-element").style.visibility = "hidden";
@@ -668,6 +670,8 @@ for (let i = 0; i < directionList.length; i++) {
 //##
 //#  
 //##
+//make this visual, but not like this ffs
+//also have these buttons appear on what's in the json, not this messy whatever
 function selectMinimum() {
     newRequirements.mode = modeList[0];
     document.getElementById("modeMinimum").innerText = "[Min]";
@@ -693,7 +697,7 @@ function rewardValueRetrieve() {
 }
 async function retrieveAllObjects() {
     let objectList = async () => {
-        const vanillaObjectList = await fetch("./objects.json");
+        const vanillaObjectList = await fetch("ScriptGenerator/MissionGenerator/objects.json");
         let cool = await vanillaObjectList.json();
         const arrayOfObjects = [];
         for (let i = 0; i < Object.keys(cool).length; i++) {

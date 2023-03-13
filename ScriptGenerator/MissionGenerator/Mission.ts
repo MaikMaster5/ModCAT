@@ -622,7 +622,7 @@ document.getElementById("requirementsList")!.innerHTML = "";
 for (let i = 0; i < propertyList.length; i++) {
 
 const requirementTitle: HTMLElement = document.createElement("span");
-requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 170px; position: relative; top:-4px; text-transform: capitalize;");
+requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 250px; position: relative; top:-4px; text-transform: capitalize;");
 
 
 if (await arrayOfAllRequirements(i).type === "Part") { requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_"," ")} else {
@@ -634,21 +634,25 @@ if (await arrayOfAllRequirements(i).type === "Part") { requirementTitle.innerTex
 console.log(i);
 console.log(await arrayOfAllRequirements(i).type);
 
+let displayedValue = await arrayOfAllRequirements(i).limit;
+if (await arrayOfAllRequirements(i).mode === "min") {
+  displayedValue = (">= " + await arrayOfAllRequirements(i).limit)
+} else if (await arrayOfAllRequirements(i).mode === "max") {
+  displayedValue = ("<= " + await arrayOfAllRequirements(i).limit)
+}else {
+  displayedValue = (await arrayOfAllRequirements(i).limit);  
+};
+
+
 const requirementProcess: HTMLElement = document.createElement("span");
-requirementProcess.setAttribute("style", "text-align: center; display: inline-block; width: 170px; position: relative; top:-4px; left: 8px;");
-requirementProcess.innerText = "|";
+requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px;");
+requirementProcess.innerText = "| " + String(displayedValue);
 
 const requirementLimit: HTMLElement = document.createElement("span");
-requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 170px; position: relative; top:-4px; left: 0px;");
-requirementLimit.innerText = arrayOfAllRequirements(i).limit;
+requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px;");
+requirementLimit.innerText = "";
 
-if (await arrayOfAllRequirements(i).mode === "min") {
-requirementLimit.innerText = (">= " + await arrayOfAllRequirements(i).limit)
-} else if (await arrayOfAllRequirements(i).mode === "max") {
-  requirementLimit.innerText = ("<= " + await arrayOfAllRequirements(i).limit)
-}else {
-  requirementLimit.innerText = (await arrayOfAllRequirements(i).limit);  
-}; //this one's actually for the | up there.
+
 
 
 requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
@@ -760,11 +764,11 @@ async function storeRequirementSelection (i: number) {
     (document.getElementById("direction-element") as HTMLElement).style.visibility = "visible";
     (document.getElementById("value-element") as HTMLElement).style.visibility = "hidden";
     (document.getElementById("custom-parameter-element") as HTMLElement).style.visibility = "hidden";
-    (document.getElementById("mode-element") as HTMLElement).style.visibility = "hidden";
+    (document.getElementById("mode-element") as HTMLElement).style.visibility = "visible";
     (document.getElementById("required-part-element") as HTMLElement).style.visibility = "hidden";
   } else if (usableTypeList[i] !== "Part") {
     (document.getElementById("required-part-element") as HTMLElement).style.visibility = "hidden";
-    (document.getElementById("mode-element") as HTMLElement).style.visibility = "hidden";
+    (document.getElementById("mode-element") as HTMLElement).style.visibility = "visible";
     (document.getElementById("direction-element") as HTMLElement).style.visibility = "hidden";
     (document.getElementById("value-element") as HTMLElement).style.visibility = "visible";
     (document.getElementById("custom-parameter-element") as HTMLElement).style.visibility = "hidden";
@@ -938,7 +942,8 @@ addEventlisteners();
 
 
 
-
+//make this visual, but not like this ffs
+//also have these buttons appear on what's in the json, not this messy whatever
 function selectMinimum () {
   newRequirements.mode = modeList[0];
   (document.getElementById("modeMinimum") as HTMLElement).innerText = "[Min]";
@@ -984,7 +989,7 @@ function rewardValueRetrieve () {
 async function retrieveAllObjects () {
 
 let objectList = async () => {
-const vanillaObjectList = await fetch("./objects.json");
+const vanillaObjectList = await fetch("ScriptGenerator/MissionGenerator/objects.json");
 let cool = await vanillaObjectList.json()
  
 const arrayOfObjects: string[] = [];
