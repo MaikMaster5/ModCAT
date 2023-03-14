@@ -48,6 +48,11 @@
 
 //have a blank Reward box throw in a calculated reward instead.
 
+
+//with this editor, I want limits which you can disable in settings as to not overwhelm the gui
+//also, please add the ability to remove Requirements when pressing X, or if clicking on itself the ability to change it
+//Maybe replace the Add button with a Save button and Delete button, while loading in what it's set to?? (How did I store this again?)
+
 const propertyListUsedInGame:any[] = [];
 let uniqueState = !0;
 
@@ -516,8 +521,24 @@ const propertyList:any = [];
 
 
 
+
+const uniqueTypes = ["Armor", "Part"];
+const typesWithLimit = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range"];
+const typesWithoutLimit = ["Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
+let usableTypeList: string[] = [];
+typesWithLimit.forEach(element => {
+  usableTypeList.push(element);
+});
+uniqueTypes.forEach(element => {
+  usableTypeList.push(element);
+});
+typesWithoutLimit.forEach(element => {
+  usableTypeList.push(element);
+});
+
+
 //Make it smarter than this, so its categorised in groups that can use other parameters.
-const usableTypeList = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range", "Armor", "Part", "Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
+//const usableTypeList = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range", "Armor", "Part", "Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
 const directionList = ["top", "bottom", "front", "rear"];
 const modeList = ["min", "max"];
 const partTypeList = (async () => {
@@ -625,7 +646,11 @@ const requirementTitle: HTMLElement = document.createElement("span");
 requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 250px; position: relative; top:-4px; text-transform: capitalize;");
 
 
-if (await arrayOfAllRequirements(i).type === "Part") { requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_"," ")} else {
+if (await arrayOfAllRequirements(i).type === "Part") { 
+  requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_"," ")
+} else if (await arrayOfAllRequirements(i).direction !== undefined) {
+  requirementTitle.innerText = (await arrayOfAllRequirements(i).type) + " " + (await arrayOfAllRequirements(i).direction)
+} else {
   requirementTitle.innerText = (await arrayOfAllRequirements(i).type);  
 };
 
@@ -634,28 +659,33 @@ if (await arrayOfAllRequirements(i).type === "Part") { requirementTitle.innerTex
 console.log(i);
 console.log(await arrayOfAllRequirements(i).type);
 
+//In theory these >= <= should be conditionally appearing, not hardcoded into the line.
+//get rid of all these else if's omfg
+
 let displayedValue = await arrayOfAllRequirements(i).limit;
 if (await arrayOfAllRequirements(i).mode === "min") {
   displayedValue = (">= " + await arrayOfAllRequirements(i).limit)
 } else if (await arrayOfAllRequirements(i).mode === "max") {
   displayedValue = ("<= " + await arrayOfAllRequirements(i).limit)
-}else {
-  displayedValue = (await arrayOfAllRequirements(i).limit);  
+} else if (await arrayOfAllRequirements(i).limit !== undefined) {
+  displayedValue = (await arrayOfAllRequirements(i).limit);
+} else {
+  displayedValue = "";  
 };
 
 
 const requirementProcess: HTMLElement = document.createElement("span");
-requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px;");
+requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px; text-transform: capitalize;");
 requirementProcess.innerText = "| " + String(displayedValue);
 
 const requirementLimit: HTMLElement = document.createElement("span");
-requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px;");
+requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px; text-transform: capitalize;");
 requirementLimit.innerText = "";
 
 
 
 
-requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
+requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" id="removeRequirement" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
 
 
 
@@ -743,7 +773,6 @@ GenerateRequirementList();
 
 
 
-
 async function storeRequirementSelection (i: number) {
  
   if (usableTypeList[i] === "Part") {
@@ -771,6 +800,20 @@ async function storeRequirementSelection (i: number) {
     (document.getElementById("mode-element") as HTMLElement).style.visibility = "visible";
     (document.getElementById("direction-element") as HTMLElement).style.visibility = "hidden";
     (document.getElementById("value-element") as HTMLElement).style.visibility = "visible";
+    (document.getElementById("custom-parameter-element") as HTMLElement).style.visibility = "hidden";
+  };
+
+  if (typesWithLimit.indexOf(usableTypeList[i]) !== -1) {
+  (document.getElementById("required-part-element") as HTMLElement).style.visibility = "hidden";
+  (document.getElementById("mode-element") as HTMLElement).style.visibility = "visible";
+  (document.getElementById("direction-element") as HTMLElement).style.visibility = "hidden";
+  (document.getElementById("value-element") as HTMLElement).style.visibility = "visible";
+  (document.getElementById("custom-parameter-element") as HTMLElement).style.visibility = "hidden";
+  } else if ( typesWithoutLimit.indexOf(usableTypeList[i]) !== -1) {
+    (document.getElementById("required-part-element") as HTMLElement).style.visibility = "hidden";
+    (document.getElementById("mode-element") as HTMLElement).style.visibility = "hidden";
+    (document.getElementById("direction-element") as HTMLElement).style.visibility = "hidden";
+    (document.getElementById("value-element") as HTMLElement).style.visibility = "hidden";
     (document.getElementById("custom-parameter-element") as HTMLElement).style.visibility = "hidden";
   };
 
@@ -1013,7 +1056,7 @@ return arrayOfObjects;
 
 
 
-function uniqueSwitch() {
+function uniqueSwitch() { //can we create generic switch functions? like ID + State(?) + One + Other
 
 if (uniqueState !== !0) { //true
   uniqueState = !0;
@@ -1022,9 +1065,17 @@ if (uniqueState !== !0) { //true
   uniqueState = !1;
   (document.getElementById("isItUnique") as HTMLElement).innerText = "[X]";
 };
-
-
 };
+
+
+
+
+function removeClickedRequirement () {
+//This needs to remove from list and display
+};
+
+
+
 
 
 
@@ -1071,5 +1122,8 @@ function eventListeners () {
   (document.getElementById("limitValueBox") as HTMLElement).addEventListener("change", limitValueRetrieve);                         
   (document.getElementById("rewardValueBox") as HTMLElement).addEventListener("change", rewardValueRetrieve);
   (document.getElementById("isItUnique") as HTMLElement).addEventListener("click", uniqueSwitch);
+
+
+  (document.getElementById("removeRequirement") as HTMLElement).addEventListener("click", removeClickedRequirement);
 }
 eventListeners();

@@ -379,7 +379,9 @@ requirements: [
 ],
 
 
-
+const uniqueTypes = ["Armor", "Part"];
+const typesWithLimit = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range"];
+const typesWithoutLimit = ["Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
 
 
 

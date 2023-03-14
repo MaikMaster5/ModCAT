@@ -34,6 +34,9 @@
 //note: is a seed converter needed? the game uses the date as the daily seed! so it should already exist?
 //mod in a feature that automatically executes the NEXT text and one that changes text speed for that line. It would be cool if you could have the game take control like that.
 //have a blank Reward box throw in a calculated reward instead.
+//with this editor, I want limits which you can disable in settings as to not overwhelm the gui
+//also, please add the ability to remove Requirements when pressing X, or if clicking on itself the ability to change it
+//Maybe replace the Add button with a Save button and Delete button, while loading in what it's set to?? (How did I store this again?)
 const propertyListUsedInGame = [];
 let uniqueState = !0;
 var preDialogueCurrent = 0;
@@ -370,8 +373,21 @@ function preAddCurrentTextbox() {
 } //merge with the Next functionality
 //Array of all current properties
 const propertyList = [];
+const uniqueTypes = ["Armor", "Part"];
+const typesWithLimit = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range"];
+const typesWithoutLimit = ["Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
+let usableTypeList = [];
+typesWithLimit.forEach(element => {
+    usableTypeList.push(element);
+});
+uniqueTypes.forEach(element => {
+    usableTypeList.push(element);
+});
+typesWithoutLimit.forEach(element => {
+    usableTypeList.push(element);
+});
 //Make it smarter than this, so its categorised in groups that can use other parameters.
-const usableTypeList = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range", "Armor", "Part", "Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
+//const usableTypeList = ["Thrust", "Fuel", "Command", "Passenger", "Radar", "Cargo", "Firepower", "Energy", "Comms", "Maneuverability", "Fleet", "T2M", "Mass", "Landing", "Power", "Range", "Armor", "Part", "Compact", "CompactX", "CompactY", "ImportTax", "CrewPartsConnected", "Cloack", "HotSpace"];
 const directionList = ["top", "bottom", "front", "rear"];
 const modeList = ["min", "max"];
 const partTypeList = (async () => {
@@ -444,12 +460,17 @@ async function addRequirementExecutor() {
         if (await arrayOfAllRequirements(i).type === "Part") {
             requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_", " ");
         }
+        else if (await arrayOfAllRequirements(i).direction !== undefined) {
+            requirementTitle.innerText = (await arrayOfAllRequirements(i).type) + " " + (await arrayOfAllRequirements(i).direction);
+        }
         else {
             requirementTitle.innerText = (await arrayOfAllRequirements(i).type);
         }
         ;
         console.log(i);
         console.log(await arrayOfAllRequirements(i).type);
+        //In theory these >= <= should be conditionally appearing, not hardcoded into the line.
+        //get rid of all these else if's omfg
         let displayedValue = await arrayOfAllRequirements(i).limit;
         if (await arrayOfAllRequirements(i).mode === "min") {
             displayedValue = (">= " + await arrayOfAllRequirements(i).limit);
@@ -457,17 +478,20 @@ async function addRequirementExecutor() {
         else if (await arrayOfAllRequirements(i).mode === "max") {
             displayedValue = ("<= " + await arrayOfAllRequirements(i).limit);
         }
-        else {
+        else if (await arrayOfAllRequirements(i).limit !== undefined) {
             displayedValue = (await arrayOfAllRequirements(i).limit);
+        }
+        else {
+            displayedValue = "";
         }
         ;
         const requirementProcess = document.createElement("span");
-        requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px;");
+        requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px; text-transform: capitalize;");
         requirementProcess.innerText = "| " + String(displayedValue);
         const requirementLimit = document.createElement("span");
-        requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px;");
+        requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px; text-transform: capitalize;");
         requirementLimit.innerText = "";
-        requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
+        requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" id="removeRequirement" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
         const requirement = document.createElement("ul");
         requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
         requirement.append(requirementTitle, requirementProcess, requirementLimit);
@@ -552,6 +576,21 @@ async function storeRequirementSelection(i) {
         document.getElementById("mode-element").style.visibility = "visible";
         document.getElementById("direction-element").style.visibility = "hidden";
         document.getElementById("value-element").style.visibility = "visible";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+    }
+    ;
+    if (typesWithLimit.indexOf(usableTypeList[i]) !== -1) {
+        document.getElementById("required-part-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "visible";
+        document.getElementById("direction-element").style.visibility = "hidden";
+        document.getElementById("value-element").style.visibility = "visible";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+    }
+    else if (typesWithoutLimit.indexOf(usableTypeList[i]) !== -1) {
+        document.getElementById("required-part-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("direction-element").style.visibility = "hidden";
+        document.getElementById("value-element").style.visibility = "hidden";
         document.getElementById("custom-parameter-element").style.visibility = "hidden";
     }
     ;
@@ -725,6 +764,10 @@ function uniqueSwitch() {
     ;
 }
 ;
+function removeClickedRequirement() {
+    //This needs to remove from list and display
+}
+;
 ///Needs cleanup with, for example, the mother function that starts it all.
 function contractEditorMO() {
 }
@@ -757,5 +800,6 @@ function eventListeners() {
     document.getElementById("limitValueBox").addEventListener("change", limitValueRetrieve);
     document.getElementById("rewardValueBox").addEventListener("change", rewardValueRetrieve);
     document.getElementById("isItUnique").addEventListener("click", uniqueSwitch);
+    document.getElementById("removeRequirement").addEventListener("click", removeClickedRequirement);
 }
 eventListeners();
