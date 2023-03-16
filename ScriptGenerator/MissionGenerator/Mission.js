@@ -37,6 +37,24 @@
 //with this editor, I want limits which you can disable in settings as to not overwhelm the gui
 //also, please add the ability to remove Requirements when pressing X, or if clicking on itself the ability to change it
 //Maybe replace the Add button with a Save button and Delete button, while loading in what it's set to?? (How did I store this again?)
+//My GOD clean this up
+function removeInteraction() {
+    this.parentElement?.setAttribute("removeElement", "true");
+    let listContainer = this.parentElement;
+    let reallistcontainer = listContainer.parentElement;
+    console.log(this.parentElement);
+    let children = reallistcontainer.children;
+    for (let i = 0; i < children.length; i++) {
+        if (children[i].hasAttribute("removeElement")) {
+            this.parentElement.remove();
+            propertyList.splice(i, 1);
+            propertyListUsedInGame.splice(i, 1);
+        }
+        ;
+    }
+    ;
+}
+;
 const propertyListUsedInGame = [];
 let uniqueState = !0;
 var preDialogueCurrent = 0;
@@ -451,6 +469,10 @@ async function addRequirementExecutor() {
     propertyList.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")")));
     console.log(propertyList);
     const arrayOfAllRequirements = (i) => { return JSON.parse(propertyList[i].replace("(", "{").replace(")", "}")); };
+    console.log("Removal System Test");
+    console.log(propertyListUsedInGame);
+    console.log(propertyList);
+    console.log("Removal System Test"); //probably take the position in list and compare to array
     // console.log(propertyList.length)
     // console.log("-StoreInArray-")
     document.getElementById("requirementsList").innerHTML = "";
@@ -492,6 +514,7 @@ async function addRequirementExecutor() {
         requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px; text-transform: capitalize;");
         requirementLimit.innerText = "";
         requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" id="removeRequirement" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
+        requirementLimit.addEventListener('click', removeInteraction);
         const requirement = document.createElement("ul");
         requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
         requirement.append(requirementTitle, requirementProcess, requirementLimit);
@@ -764,10 +787,6 @@ function uniqueSwitch() {
     ;
 }
 ;
-function removeClickedRequirement() {
-    //This needs to remove from list and display
-}
-;
 ///Needs cleanup with, for example, the mother function that starts it all.
 function contractEditorMO() {
 }
@@ -800,6 +819,5 @@ function eventListeners() {
     document.getElementById("limitValueBox").addEventListener("change", limitValueRetrieve);
     document.getElementById("rewardValueBox").addEventListener("change", rewardValueRetrieve);
     document.getElementById("isItUnique").addEventListener("click", uniqueSwitch);
-    document.getElementById("removeRequirement").addEventListener("click", removeClickedRequirement);
 }
 eventListeners();

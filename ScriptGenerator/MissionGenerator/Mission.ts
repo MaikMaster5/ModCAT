@@ -53,6 +53,30 @@
 //also, please add the ability to remove Requirements when pressing X, or if clicking on itself the ability to change it
 //Maybe replace the Add button with a Save button and Delete button, while loading in what it's set to?? (How did I store this again?)
 
+
+
+
+//My GOD clean this up
+function removeInteraction(this: HTMLElement) {
+this.parentElement?.setAttribute("removeElement","true");
+let listContainer: HTMLElement = (this.parentElement as HTMLLIElement);
+let reallistcontainer: HTMLElement = (listContainer.parentElement as HTMLLinkElement);
+console.log(this.parentElement);
+
+let children: HTMLCollection = reallistcontainer.children;
+for (let i = 0; i < children.length; i++) {
+  if (children[i].hasAttribute("removeElement")) {
+    this.parentElement!.remove();
+    propertyList.splice(i,1);
+    propertyListUsedInGame.splice(i,1);
+  };
+};
+};
+
+
+
+
+
 const propertyListUsedInGame:any[] = [];
 let uniqueState = !0;
 
@@ -635,6 +659,11 @@ async function addRequirementExecutor () {
 
   const arrayOfAllRequirements = (i: number) => { return JSON.parse(propertyList[i].replace("(","{").replace(")","}")) };
 
+
+  console.log("Removal System Test");
+  console.log(propertyListUsedInGame);
+  console.log(propertyList);  
+  console.log("Removal System Test"); //probably take the position in list and compare to array
   // console.log(propertyList.length)
   // console.log("-StoreInArray-")
 
@@ -686,7 +715,7 @@ requirementLimit.innerText = "";
 
 
 requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" id="removeRequirement" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
-
+requirementLimit.addEventListener('click', removeInteraction);
 
 
 const requirement: HTMLElement = document.createElement("ul");
@@ -1070,11 +1099,6 @@ if (uniqueState !== !0) { //true
 
 
 
-function removeClickedRequirement () {
-//This needs to remove from list and display
-};
-
-
 
 
 
@@ -1122,8 +1146,5 @@ function eventListeners () {
   (document.getElementById("limitValueBox") as HTMLElement).addEventListener("change", limitValueRetrieve);                         
   (document.getElementById("rewardValueBox") as HTMLElement).addEventListener("change", rewardValueRetrieve);
   (document.getElementById("isItUnique") as HTMLElement).addEventListener("click", uniqueSwitch);
-
-
-  (document.getElementById("removeRequirement") as HTMLElement).addEventListener("click", removeClickedRequirement);
 }
 eventListeners();
