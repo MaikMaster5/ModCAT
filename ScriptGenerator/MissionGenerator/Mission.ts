@@ -53,7 +53,18 @@
 //also, please add the ability to remove Requirements when pressing X, or if clicking on itself the ability to change it
 //Maybe replace the Add button with a Save button and Delete button, while loading in what it's set to?? (How did I store this again?)
 
+//gray out static options that arent available
+//for the client creator, have a typing system also! This should be paired with animated talking as well.
+//still figure out which font they are using
+//allow custom scripts to add brand new abilities to new items - Analyse how current items work first.
 
+//I need the ability to have them (sprites under the Full category) on the build screen, but that will probably require the editor to be finished.
+
+//bottom might be the free on most pages
+
+//default the clientele value of a newly generated pre- post- Dialoge with the one selected in properties
+//preload username, status and location from selected user, unless it doesn't match the Clientele: Check that CurrentName === Clientele >> If (not) swap clientele, but not the text || (yes) fill in with stored data
+//Also, if it's blank, revert to filling with stored data.
 
 
 //My GOD clean this up
