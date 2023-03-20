@@ -65,7 +65,10 @@
 //default the clientele value of a newly generated pre- post- Dialoge with the one selected in properties
 //preload username, status and location from selected user, unless it doesn't match the Clientele: Check that CurrentName === Clientele >> If (not) swap clientele, but not the text || (yes) fill in with stored data
 //Also, if it's blank, revert to filling with stored data.
+//possibly replace image with characterfile containing both data and base64, or both!!
 
+//Instead of instantly exporting, display a tickbox check list of what you need to do to export, as well as some parameters.
+//Have an export button in the menu too? or just still on auto??
 
 //My GOD clean this up
 function removeInteraction(this: HTMLElement) {
@@ -625,7 +628,29 @@ var newRequirements: Partial<createRequirements|any> = {};
 //Image be item/requirement preview??
 
 
+
+//out of date, to say the least
 async function addRequirementExecutor () {
+
+  //check what happens on mix and matching behaviour ++ Also make it so it goes neatly in the list
+  let customVerifyPart = newRequirements.type === "Part" && newRequirements.limit !== undefined; //even this doesnt require a mode, or I need it to default;
+  let customVerifyArmor = newRequirements.type === "Armor" && directionList.includes(newRequirements.direction); //apparently it has a min/max there shouldnt be
+  let verifyTypesWithLimit = typesWithLimit.includes(newRequirements.type) && newRequirements.limit !== undefined; //allow this to not be a string mate, lmao
+  let verifyTypesWithoutLimit = typesWithoutLimit.includes(newRequirements.type); //Need to verify that it's in said category for all of these too;
+  let VerifyCheckSum = [customVerifyPart,customVerifyArmor,verifyTypesWithLimit,verifyTypesWithoutLimit].includes(true); //add a verify to it being multiple trues. (would that be possible, I don't wnat that)
+  console.log("#v# Testing Grounds #v#")
+  console.log(newRequirements)
+  console.log("Verify custom Type |Part|: " + customVerifyPart);
+  console.log("Verify custom Type |Armor|: " + customVerifyArmor);
+  console.log("Verify the Types With Limit: " + verifyTypesWithLimit);
+  console.log("Verify the Types Without Limit: " + verifyTypesWithoutLimit);
+  console.log("Send it check: " + VerifyCheckSum);
+  console.log("#^# Testing Grounds #^#")
+  //Please make it so that there's a tooltip, warning, message, whatever in case it doesn't run/meet it's required minimum
+
+  // Throw them into an array?
+  if (VerifyCheckSum === true) {
+
 
   if (newRequirements.type === "Part") {
 
@@ -761,8 +786,13 @@ newRequirements = {};
 
 
 
-}
 
+
+
+console.log("Victory!")
+} else {
+console.log("You failed - *boooo!*");}
+};
 
 
 //##

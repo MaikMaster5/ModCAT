@@ -46,6 +46,9 @@
 //default the clientele value of a newly generated pre- post- Dialoge with the one selected in properties
 //preload username, status and location from selected user, unless it doesn't match the Clientele: Check that CurrentName === Clientele >> If (not) swap clientele, but not the text || (yes) fill in with stored data
 //Also, if it's blank, revert to filling with stored data.
+//possibly replace image with characterfile containing both data and base64, or both!!
+//Instead of instantly exporting, display a tickbox check list of what you need to do to export, as well as some parameters.
+//Have an export button in the menu too? or just still on auto??
 //My GOD clean this up
 function removeInteraction() {
     this.parentElement?.setAttribute("removeElement", "true");
@@ -437,113 +440,137 @@ var newRequirements = {};
 // newRequirements.limit = 0;
 //Green if valid? Red delete? What do I want with the colouring?
 //Image be item/requirement preview??
+//out of date, to say the least
 async function addRequirementExecutor() {
-    if (newRequirements.type === "Part") {
-        Object.keys(newRequirements).forEach(function (itm) {
-            if (itm != "type" && itm != "mode" && itm != "partType" && itm != "limit")
+    //check what happens on mix and matching behaviour ++ Also make it so it goes neatly in the list
+    let customVerifyPart = newRequirements.type === "Part" && newRequirements.limit !== undefined; //even this doesnt require a mode, or I need it to default;
+    let customVerifyArmor = newRequirements.type === "Armor" && directionList.includes(newRequirements.direction); //apparently it has a min/max there shouldnt be
+    let verifyTypesWithLimit = typesWithLimit.includes(newRequirements.type) && newRequirements.limit !== undefined; //allow this to not be a string mate, lmao
+    let verifyTypesWithoutLimit = typesWithoutLimit.includes(newRequirements.type); //Need to verify that it's in said category for all of these too;
+    let VerifyCheckSum = [customVerifyPart, customVerifyArmor, verifyTypesWithLimit, verifyTypesWithoutLimit].includes(true); //add a verify to it being multiple trues. (would that be possible, I don't wnat that)
+    console.log("#v# Testing Grounds #v#");
+    console.log(newRequirements);
+    console.log("Verify custom Type |Part|: " + customVerifyPart);
+    console.log("Verify custom Type |Armor|: " + customVerifyArmor);
+    console.log("Verify the Types With Limit: " + verifyTypesWithLimit);
+    console.log("Verify the Types Without Limit: " + verifyTypesWithoutLimit);
+    console.log("Send it check: " + VerifyCheckSum);
+    console.log("#^# Testing Grounds #^#");
+    //Please make it so that there's a tooltip, warning, message, whatever in case it doesn't run/meet it's required minimum
+    // Throw them into an array?
+    if (VerifyCheckSum === true) {
+        if (newRequirements.type === "Part") {
+            Object.keys(newRequirements).forEach(function (itm) {
+                if (itm != "type" && itm != "mode" && itm != "partType" && itm != "limit")
+                    delete newRequirements[itm];
+            });
+        }
+        else if (newRequirements.type === "Armor") {
+            Object.keys(newRequirements).forEach(function (itm) {
+                if (itm != "type" && itm != "direction")
+                    delete newRequirements[itm];
+            });
+        }
+        else if (newRequirements.type === undefined) {
+            Object.keys(newRequirements).forEach(function (itm) {
                 delete newRequirements[itm];
-        });
-    }
-    else if (newRequirements.type === "Armor") {
-        Object.keys(newRequirements).forEach(function (itm) {
-            if (itm != "type" && itm != "direction")
-                delete newRequirements[itm];
-        });
-    }
-    else if (newRequirements.type === undefined) {
-        Object.keys(newRequirements).forEach(function (itm) {
-            delete newRequirements[itm];
-            console.log("##Fix invalid statements##");
-        });
+                console.log("##Fix invalid statements##");
+            });
+        }
+        else {
+            Object.keys(newRequirements).forEach(function (itm) {
+                if (itm != "type" && itm != "limit")
+                    delete newRequirements[itm];
+            });
+        }
+        ;
+        // console.log("##")
+        // console.log(currentRequirementSelection);
+        // console.log(usableTypeList[currentRequirementSelection]);
+        // console.log("--")
+        // console.log((await newRequirements));
+        // console.log((await newRequirements.type));
+        // console.log("##");
+        // console.log("-StoreInArray-");
+        // console.log((newRequirements));
+        // console.log(JSON.stringify((newRequirements)).replace("{","(").replace("}",")").replace(/"([^"]+)":/g, '$1:'));
+        propertyListUsedInGame.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")").replace(/"([^"]+)":/g, '$1:')));
+        // console.log(propertyListUsedInGame);
+        propertyList.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")")));
+        console.log(propertyList);
+        const arrayOfAllRequirements = (i) => { return JSON.parse(propertyList[i].replace("(", "{").replace(")", "}")); };
+        console.log("Removal System Test");
+        console.log(propertyListUsedInGame);
+        console.log(propertyList);
+        console.log("Removal System Test"); //probably take the position in list and compare to array
+        // console.log(propertyList.length)
+        // console.log("-StoreInArray-")
+        document.getElementById("requirementsList").innerHTML = "";
+        for (let i = 0; i < propertyList.length; i++) {
+            const requirementTitle = document.createElement("span");
+            requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 250px; position: relative; top:-4px; text-transform: capitalize;");
+            if (await arrayOfAllRequirements(i).type === "Part") {
+                requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_", " ");
+            }
+            else if (await arrayOfAllRequirements(i).direction !== undefined) {
+                requirementTitle.innerText = (await arrayOfAllRequirements(i).type) + " " + (await arrayOfAllRequirements(i).direction);
+            }
+            else {
+                requirementTitle.innerText = (await arrayOfAllRequirements(i).type);
+            }
+            ;
+            console.log(i);
+            console.log(await arrayOfAllRequirements(i).type);
+            //In theory these >= <= should be conditionally appearing, not hardcoded into the line.
+            //get rid of all these else if's omfg
+            let displayedValue = await arrayOfAllRequirements(i).limit;
+            if (await arrayOfAllRequirements(i).mode === "min") {
+                displayedValue = (">= " + await arrayOfAllRequirements(i).limit);
+            }
+            else if (await arrayOfAllRequirements(i).mode === "max") {
+                displayedValue = ("<= " + await arrayOfAllRequirements(i).limit);
+            }
+            else if (await arrayOfAllRequirements(i).limit !== undefined) {
+                displayedValue = (await arrayOfAllRequirements(i).limit);
+            }
+            else {
+                displayedValue = "";
+            }
+            ;
+            const requirementProcess = document.createElement("span");
+            requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px; text-transform: capitalize;");
+            requirementProcess.innerText = "| " + String(displayedValue);
+            const requirementLimit = document.createElement("span");
+            requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px; text-transform: capitalize;");
+            requirementLimit.innerText = "";
+            requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" id="removeRequirement" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
+            requirementLimit.addEventListener('click', removeInteraction);
+            const requirement = document.createElement("ul");
+            requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
+            requirement.append(requirementTitle, requirementProcess, requirementLimit);
+            document.getElementById("requirementsList").append(requirement);
+            //instead of making it appear in list from whats given, eventually make list generate from array of existing ones so it, you know, works better.
+        }
+        newRequirements = {};
+        document.getElementById("currentRequirementSelection").innerText = "[Not Selected] ";
+        document.getElementById("currentRequiredPartSelection").innerText = "[Not Selected] ";
+        document.getElementById("currentDirectionSelection").innerText = "[Not Selected] ";
+        document.getElementById("modeMinimum").innerText = "Min";
+        document.getElementById("modeMaximum").innerText = "Max";
+        document.getElementById("limitValueBox").value = '';
+        document.getElementById("customValueBox").value = '';
+        document.getElementById("required-part-element").style.visibility = "hidden";
+        document.getElementById("mode-element").style.visibility = "hidden";
+        document.getElementById("direction-element").style.visibility = "hidden";
+        document.getElementById("value-element").style.visibility = "hidden";
+        document.getElementById("custom-parameter-element").style.visibility = "hidden";
+        console.log("Victory!");
     }
     else {
-        Object.keys(newRequirements).forEach(function (itm) {
-            if (itm != "type" && itm != "limit")
-                delete newRequirements[itm];
-        });
+        console.log("You failed - *boooo!*");
     }
-    ;
-    // console.log("##")
-    // console.log(currentRequirementSelection);
-    // console.log(usableTypeList[currentRequirementSelection]);
-    // console.log("--")
-    // console.log((await newRequirements));
-    // console.log((await newRequirements.type));
-    // console.log("##");
-    // console.log("-StoreInArray-");
-    // console.log((newRequirements));
-    // console.log(JSON.stringify((newRequirements)).replace("{","(").replace("}",")").replace(/"([^"]+)":/g, '$1:'));
-    propertyListUsedInGame.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")").replace(/"([^"]+)":/g, '$1:')));
-    // console.log(propertyListUsedInGame);
-    propertyList.push((JSON.stringify((newRequirements)).replace("{", "(").replace("}", ")")));
-    console.log(propertyList);
-    const arrayOfAllRequirements = (i) => { return JSON.parse(propertyList[i].replace("(", "{").replace(")", "}")); };
-    console.log("Removal System Test");
-    console.log(propertyListUsedInGame);
-    console.log(propertyList);
-    console.log("Removal System Test"); //probably take the position in list and compare to array
-    // console.log(propertyList.length)
-    // console.log("-StoreInArray-")
-    document.getElementById("requirementsList").innerHTML = "";
-    for (let i = 0; i < propertyList.length; i++) {
-        const requirementTitle = document.createElement("span");
-        requirementTitle.setAttribute("style", "text-align: left; display: inline-block; width: 250px; position: relative; top:-4px; text-transform: capitalize;");
-        if (await arrayOfAllRequirements(i).type === "Part") {
-            requirementTitle.innerText = (await arrayOfAllRequirements(i).partType).replaceAll("_", " ");
-        }
-        else if (await arrayOfAllRequirements(i).direction !== undefined) {
-            requirementTitle.innerText = (await arrayOfAllRequirements(i).type) + " " + (await arrayOfAllRequirements(i).direction);
-        }
-        else {
-            requirementTitle.innerText = (await arrayOfAllRequirements(i).type);
-        }
-        ;
-        console.log(i);
-        console.log(await arrayOfAllRequirements(i).type);
-        //In theory these >= <= should be conditionally appearing, not hardcoded into the line.
-        //get rid of all these else if's omfg
-        let displayedValue = await arrayOfAllRequirements(i).limit;
-        if (await arrayOfAllRequirements(i).mode === "min") {
-            displayedValue = (">= " + await arrayOfAllRequirements(i).limit);
-        }
-        else if (await arrayOfAllRequirements(i).mode === "max") {
-            displayedValue = ("<= " + await arrayOfAllRequirements(i).limit);
-        }
-        else if (await arrayOfAllRequirements(i).limit !== undefined) {
-            displayedValue = (await arrayOfAllRequirements(i).limit);
-        }
-        else {
-            displayedValue = "";
-        }
-        ;
-        const requirementProcess = document.createElement("span");
-        requirementProcess.setAttribute("style", "text-align: left; display: inline-block; width: 180px; position: relative; top:-4px; left: 8px; text-transform: capitalize;");
-        requirementProcess.innerText = "| " + String(displayedValue);
-        const requirementLimit = document.createElement("span");
-        requirementLimit.setAttribute("style", "text-align: right; display: inline-block; width: 80px; position: relative; top:-4px; left: 0px; text-transform: capitalize;");
-        requirementLimit.innerText = "";
-        requirementLimit.innerHTML = requirementLimit.innerHTML + `‎ <img src="ScriptGenerator/MissionGenerator/XMark.png" id="removeRequirement" style="position: relative; scale: 250%; image-rendering: pixelated; top: -3px; left: 8px;">`;
-        requirementLimit.addEventListener('click', removeInteraction);
-        const requirement = document.createElement("ul");
-        requirement.setAttribute("style", "padding: 0; margin: 0; position: relative; top: -27px; left: 0px; display: block; color: rgb(249, 81, 146); width: 527px; background-color: rgb(36, 9, 51); margin-bottom: 5px; max-height: 25px;");
-        requirement.append(requirementTitle, requirementProcess, requirementLimit);
-        document.getElementById("requirementsList").append(requirement);
-        //instead of making it appear in list from whats given, eventually make list generate from array of existing ones so it, you know, works better.
-    }
-    newRequirements = {};
-    document.getElementById("currentRequirementSelection").innerText = "[Not Selected] ";
-    document.getElementById("currentRequiredPartSelection").innerText = "[Not Selected] ";
-    document.getElementById("currentDirectionSelection").innerText = "[Not Selected] ";
-    document.getElementById("modeMinimum").innerText = "Min";
-    document.getElementById("modeMaximum").innerText = "Max";
-    document.getElementById("limitValueBox").value = '';
-    document.getElementById("customValueBox").value = '';
-    document.getElementById("required-part-element").style.visibility = "hidden";
-    document.getElementById("mode-element").style.visibility = "hidden";
-    document.getElementById("direction-element").style.visibility = "hidden";
-    document.getElementById("value-element").style.visibility = "hidden";
-    document.getElementById("custom-parameter-element").style.visibility = "hidden";
 }
+;
 //##
 //#  Dropdown system for requirements
 //##
